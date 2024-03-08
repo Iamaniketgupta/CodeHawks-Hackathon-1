@@ -16,9 +16,13 @@ app.use(cookieParser());
 
 
 // various  routes 
-import userRouter from './src/routes/user';
+import userRouter from './src/routes/user.routes.js'
+import teamRouter from './src/routes/team.routes.js'
+import eventRouter from './src/routes/event.route.js'
 
-app.use("/api/users" , userRouter);
+app.use("/api/v1/users" , userRouter);
+app.use("/api/v1/teams" , teamRouter);
+app.use("/api/v1/events" , eventRouter);
 
 
 
