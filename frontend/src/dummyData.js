@@ -9,7 +9,7 @@ export const dummyUsers = [
       gender: 'male',
       age: 30,
       sportsInterest: ['Football', 'Basketball'],
-      location: 'Chandigarh, India',
+      location: 'New York, India',
       preferredSportActivities: ['Running', 'Swimming'],
       skillLevels: 'intermediate',
       coordinates: { lat: 30.7333, lng: 76.7794 } // Chandigarh coordinates
@@ -40,7 +40,7 @@ export const dummyUsers = [
       gender: 'male',
       age: 35,
       sportsInterest: ['Soccer', 'Baseball'],
-      location: 'Mohali, India',
+      location: 'New York, India',
       preferredSportActivities: ['Tennis', 'Cycling'],
       skillLevels: 'advanced',
       coordinates: { lat: 30.7052, lng: 76.8011 } // Mohali coordinates
@@ -55,7 +55,7 @@ export const dummyUsers = [
       gender: 'female',
       age: 28,
       sportsInterest: ['Swimming', 'Dancing'],
-      location: 'Zirakpur, India',
+      location: 'New York, India',
       preferredSportActivities: ['Running', 'Yoga'],
       skillLevels: 'intermediate',
       coordinates: { lat: 30.642, lng: 76.8174 } // Zirakpur coordinates
