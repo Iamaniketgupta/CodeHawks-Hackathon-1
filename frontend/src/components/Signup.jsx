@@ -2,7 +2,8 @@ import { useState } from 'react';
 import Buttons from './subcomponents/Buttons';
 import InputComp from './subcomponents/InputComp';
 import { FaCameraRetro } from "react-icons/fa6";
-import defaultavatar from "../assets/defaultavatar.png"
+import defaultavatar from "../assets/defaultavatar.png";
+
 const Signup = () => {
     const [data, setData] = useState({
         fullName: "",
@@ -12,8 +13,35 @@ const Signup = () => {
         gender: "",
     });
 
-    const signupHandler = async () => {
-        
+    const signupHandler = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch('/api/v1/users/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                const responseData = await response.json();
+                console.log('Signup successful:', responseData);
+            } else {
+                console.error('Signup failed:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setData(prevData => ({
+            ...prevData,
+            [name]: value
+        }));
     }
 
     return (
@@ -29,14 +57,14 @@ const Signup = () => {
                     </div>
                     <input type="file" id="avatar" className='mx-auto text-blue-700 w-full hidden' />
                     </div>
-                    <InputComp type="text" id="fullName" label={"Full Name"} placeholder="Enter Full Name"/>
-                    <InputComp type="email" id="email" label={"Email"} placeholder="Enter Email" />
-                    <InputComp type="tel" id="phone" label={"Phone"} placeholder="Enter Phone" />
-                    <InputComp type="password" id="password" label={"Password"} placeholder="Enter Password" />
+                    <InputComp type="text" id="fullName" name="fullName" label={"Full Name"} placeholder="Enter Full Name" onChange={handleInputChange} />
+                    <InputComp type="email" id="email" name="email" label={"Email"} placeholder="Enter Email" onChange={handleInputChange} />
+                    <InputComp type="tel" id="phoneNo" name="phoneNo" label={"Phone"} placeholder="Enter Phone" onChange={handleInputChange} />
+                    <InputComp type="password" id="password" name="password" label={"Password"} placeholder="Enter Password" onChange={handleInputChange} />
                 </div>
                 <Buttons text="Sign Up" onClick={signupHandler} />
 
-                <p className='text-center my-5 '>Already SignUp? Login here </p>
+                <p className='text-center my-5 '>Already Signed Up? Login here </p>
             </div>
         </div>
     );
