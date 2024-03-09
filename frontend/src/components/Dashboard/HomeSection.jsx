@@ -22,7 +22,7 @@ const HomeSection = () => {
     return (
 
 
-        <div className="w-full h-screen ">
+        <div className="w-full">
 
             {/* profile section */}
             <div className="h-14 max-w-[600px] min-w-fit flex gap-3 items-center justify-end px-4 py-2 my-3 flex-wrap-reverse">
@@ -65,19 +65,11 @@ const HomeSection = () => {
             <section>
                 {/* tabs */}
 
-{/* 
-  --dark-color: #0B101B;
-    --brand-primary-blue: #144EE3;
-    --brand-primary-pink: #EB568E;
-    --grey: #181E29;
-    --lite: #C9CED6;
-    
-    */}
-                <div className="flex items-center justify-start border-2 gap-2 h-14 rounded-3xl overflow-x-scroll flex-nowrap px-3" style={{ scrollbarWidth: "none" }}>
+                <div className="flex items-center justify-start border-2 gap-2 h-20 overflow-x-scroll flex-nowrap px-3" style={{ scrollbarWidth: "none" }}>
                     {
                         tabs.map((item, index) =>
                             <div key={index} onClick={() => setCurrTab(item)}
-                            className={`min-w-fit bg-gradient-to-r from-bg-[#EB568E] to-bg-[#144EE3]  p-2 px-4 rounded-lg text-sm font-semibold cursor-pointer ${currTab === item ? 'text-blue-500' : ''}`}>                            {item}
+                                className={`min-w-fit bg-blue-300 p-2 px-4 rounded-lg text-sm font-semibold cursor-pointer ${currTab === item ? 'text-blue-500' : ''}`}>                            {item}
                             </div>
                         )
                     }
@@ -87,7 +79,7 @@ const HomeSection = () => {
 
                 {/* Components */}
                 
-                <div className="w-[300px] flex flex-wrap gap-2 justify-start max-md:justify-center p-2">
+                <div className="w-[300px] flex fllex-wrap gap-2 justify-start p-2">
                 {currTab === "Events" &&  <AllEvents />}
                 </div>
                 {currTab==="Followers" && <Followers/>}
