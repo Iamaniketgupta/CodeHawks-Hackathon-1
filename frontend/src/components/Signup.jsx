@@ -3,11 +3,7 @@ import Buttons from './subcomponents/Buttons';
 import InputComp from './subcomponents/InputComp';
 import { FaCameraRetro } from "react-icons/fa6";
 import defaultavatar from "../assets/defaultavatar.png";
-import { request } from '../constants';
-import { signup } from '../utils/user.data.fetch';
-import { useNavigate} from 'react-router-dom'
-import { login, logout} from '../store/authSlice'
-import { useDispatch, useSelector } from 'react-redux';
+
 const Signup = () => {
     const [data, setData] = useState({
         fullName: "",
@@ -17,50 +13,35 @@ const Signup = () => {
         gender: "",
     });
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
     const signupHandler = async (e) => {
-        console.log(data)
         e.preventDefault();
 
-        const response = await signup(data);
-        if(response){
-            const obj = {
-                user:response.data
+        try {
+            const response = await fetch('/api/v1/users/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                const responseData = await response.json();
+                console.log('Signup successful:', responseData);
+            } else {
+                console.error('Signup failed:', response.statusText);
             }
-            dispatch(login(obj))
-            navigate('/api/dashboard')
+        } catch (error) {
+            console.error('Error:', error);
         }
-
-        // try {
-        //     const response = await fetch(`${request}/users/signup`, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(data)
-        //     });
-
-        //     if (response.ok) {
-        //         const responseData = await response.json();
-        //         console.log('Signup successful:', responseData);
-        //     } else {
-        //         console.error('Signup failed:', response.statusText);
-        //     }
-        // } catch (error) {
-        //     console.error('Error:', error);
-        // }
     }
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        // console.log(name , value)
         setData(prevData => ({
             ...prevData,
             [name]: value
         }));
-        console.log(data)
     }
 
     return (
@@ -81,7 +62,7 @@ const Signup = () => {
                     <InputComp type="tel" id="phoneNo" name="phoneNo" label={"Phone"} placeholder="Enter Phone" onChange={handleInputChange} />
                     <InputComp type="password" id="password" name="password" label={"Password"} placeholder="Enter Password" onChange={handleInputChange} />
                 </div>
-                <div onClick={signupHandler}><Buttons text="Sign Up" /></div>
+                <Buttons text="Sign Up" onClick={signupHandler} />
 
                 <p className='text-center my-5 '>Already Signed Up? Login here </p>
             </div>
