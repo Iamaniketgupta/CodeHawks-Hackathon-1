@@ -94,9 +94,9 @@ const Dashboard = () => {
             </section>
 
 
-            <section className="min-w-[300px] shadow-md justify-self-end mr-10 rounded-xl px-1 max-md:hidden">
-                <h2 className="m-3 px-2 py-3 my-5 text-center text-lg font-bold rounded-3xl bg-white shadow-md"> Suggestions For You</h2>
-                <div className="flex flex-col p-3 gap-5 overflow-y-scroll max-h-[600px] w-full bg-white" style={{ scrollbarWidth: "none" }}>
+            <section className="min-w-[300px] justify-self-end mr-10 rounded-xl px-1 max-md:hidden dark:shadow-[#181E29] shadow-xl ">
+                <h2 className="m-3 px-2 py-3 my-5 text-center text-lg font-bold rounded-3xl dark:bg-[#181E29] bg-white shadow-md"> Suggestions For You</h2>
+                <div className="flex flex-col p-3 gap-5 overflow-y-scroll max-h-[600px] w-full" style={{ scrollbarWidth: "none" }}>
                     <Followers />
                     <Followers />
                     <Followers />
@@ -109,8 +109,8 @@ const Dashboard = () => {
             </section>
 
             
-            <div className="h-14 fixed w-full bottom-0 z-50 bg-white md:hidden"> 
-                <nav className="flex gap-5 text-3xl h-full items-center justify-center">
+            <div className="h-14 fixed w-full bottom-0 z-50 dark:text-white bg-white md:hidden"> 
+                <nav className="flex gap-8 text-4xl h-full items-center justify-center">
                     <div onClick={() => handlerNavTabs("home")}
                         className={` my-3 hover:text-blue-500 cursor-pointer ${activeNavTab === 'home' ? 'text-blue-500' : ''}`}>
                         <MdDashboard />

@@ -24,20 +24,24 @@ const HomeSection = () => {
 
         <div className="w-full h-screen ">
 
-            {/* profile section */}
-            <div className="h-14 max-w-[600px] min-w-fit flex gap-3 items-center justify-end px-4 py-2 my-3 flex-wrap-reverse">
-                <div>
-                    Aniket Gupta
-                </div>
-                <div>
-                    <img src={defaultavatar} alt="profile" className="w-10 h-10 rounded-full" />
+            <div className="flex flex-wrap-reverse min-w-[300px] items-center">
+                {/* search and filters */}
+                <div className='searchUsers flex min-w-[300px] max-w-[600px] flex-1 items-center my-5 '>
+                    <CiSearch size={30} /><InputComp type={'search'} id={"search"} placeholder={"Search Sports Persons"} />
                 </div>
 
-            </div>
+                {/* profile section */}
+                <div className="h-14 max-w-[600px] min-w-fit flex gap-3 items-center justify-end px-3 py-2 my-3">
+                    <div>
+                        Aniket Gupta
+                    </div>
+                    <div>
+                        <img src={defaultavatar} alt="profile" className="w-10 h-10 rounded-full" />
+                    </div>
 
-            {/* search and filters */}
-            <div className='searchUsers flex max-w-[600px] flex-1 items-center my-5 '>
-                <CiSearch size={30} /><InputComp type={'search'} id={"search"} placeholder={"Search Sports Persons"} />
+                </div>
+
+
             </div>
 
             {/* Filters */}
@@ -65,7 +69,7 @@ const HomeSection = () => {
             <section>
                 {/* tabs */}
 
-{/* 
+                {/* 
   --dark-color: #0B101B;
     --brand-primary-blue: #144EE3;
     --brand-primary-pink: #EB568E;
@@ -77,7 +81,7 @@ const HomeSection = () => {
                     {
                         tabs.map((item, index) =>
                             <div key={index} onClick={() => setCurrTab(item)}
-                            className={`min-w-fit bg-gradient-to-r from-bg-[#EB568E] to-bg-[#144EE3]  p-2 px-4 rounded-lg text-sm font-semibold cursor-pointer ${currTab === item ? 'text-blue-500' : ''}`}>                            {item}
+                                className={`min-w-fit bg-gradient-to-r from-bg-[#EB568E] to-bg-[#144EE3]  p-2 px-4 rounded-lg text-sm font-semibold cursor-pointer ${currTab === item ? 'text-blue-500' : ''}`}>                            {item}
                             </div>
                         )
                     }
@@ -86,13 +90,13 @@ const HomeSection = () => {
 
 
                 {/* Components */}
-                
+
                 <div className="w-[300px] flex flex-wrap gap-2 justify-start max-md:justify-center p-2">
-                {currTab === "Events" &&  <AllEvents />}
+                    {currTab === "Events" && <AllEvents />}
                 </div>
-                {currTab==="Followers" && <Followers/>}
-                {currTab==="Followers" && <Following/>}
-                {currTab==="Followers" && <NearByUsers/>}
+                {currTab === "Followers" && <Followers />}
+                {currTab === "Followers" && <Following />}
+                {currTab === "Followers" && <NearByUsers />}
 
 
             </section>
