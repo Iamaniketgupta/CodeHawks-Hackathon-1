@@ -2,8 +2,10 @@ import mongoose, { Schema } from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-
 const skillLevelsEnum = ['beginner', 'intermediate', 'professional'];
+const sportsInterestEnum = [
+  "Rugby" , "Football" , "Tennis" , "Badminton" ,"Running" , "Basketball" , "Golf" , "Gym Session" , "Squash" , "Social Event" , "Cricket" , "Cycling" , "Hockey" ,"Netball"
+]// Add your specific sports interests
 
 const userSchema = new mongoose.Schema({
   fullName: {
@@ -35,13 +37,18 @@ const userSchema = new mongoose.Schema({
     type: Number,
   },
   sportsInterest: {
-    type: [String],
+    type: [{ type: String, enum: sportsInterestEnum }],
   },
   location: {
     type: String,
   },
-  preferredSportActivities: {
-    type: [String],
+  coordinates: {
+    latitude: {
+      type: String,
+    },
+    longitude: {
+      type: String,
+    },
   },
   skillLevels: {
     type: String,
@@ -64,17 +71,14 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre("save" , async function(next){
-    if(!this.isModified("password"))  return next()
-    this.password = await bcrypt.hash(this.password , 10)
-    next()
-})
-
+    if(!this.isModified("password"))  return next();
+    this.password = await bcrypt.hash(this.password , 10);
+    next();
+});
 
 userSchema.methods.isPasswordCorrect = async function(password){
-    return await bcrypt.compare(password , this.password)
+    return await bcrypt.compare(password , this.password);
 }
-
-
 
 userSchema.methods.generateAccessToken = function(){
     return jwt.sign(
@@ -88,7 +92,7 @@ userSchema.methods.generateAccessToken = function(){
         {
             expiresIn:process.env.ACCESS_TOKEN_EXPIRY
         }
-    )
+    );
 }
 
 userSchema.methods.generateRefreshToken =  function(){
@@ -100,9 +104,7 @@ userSchema.methods.generateRefreshToken =  function(){
         {
             expiresIn:process.env.REFRESH_TOKEN_EXPIRY
         }
-    )
+    );
 }
-
-
 
 export const User = mongoose.model("User", userSchema);

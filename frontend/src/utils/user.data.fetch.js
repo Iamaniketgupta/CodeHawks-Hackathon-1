@@ -31,7 +31,9 @@ const loginUser = async(formData)=>{
 const logoutUser = async()=>{
     try {
         // console.log(formData)
-        const response = await axios.post(`${request}/users/logout`);  
+        const response = await axios.post(`${request}/users/logout`,{},{
+          withCredentials:true
+        });  
         console.log(response.data);
         return response.data;
       } catch (error) {
