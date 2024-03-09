@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import Buttons from "../../subcomponents/Buttons";
 
 const Followers = ({ user }) => {

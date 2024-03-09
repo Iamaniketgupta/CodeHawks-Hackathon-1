@@ -80,9 +80,9 @@ const findTeam = asyncHandler(async (req, res) => {
         "Teams fetched successfully"
       )
     );
-  });
+});
 
-  const addMembers = asyncHandler(async(req,res) =>{
+const addMembers = asyncHandler(async(req,res) =>{
     
     const {members} = req.body;
     const {teamId} = req.params;
@@ -244,10 +244,41 @@ const removeMember = asyncHandler(async(req,res)=>{
     
 })
 
+
+const getRoomByTeamId = asyncHandler(async(req,res)=>{
+    const {teamId} = req.params;
+    if(!teamId){
+        throw new ApiError(400 , "Team Id is required");
+    }
+
+    const team = await Team.findById(teamId);
+    if(!team){
+        throw new ApiError(400 , "Team dont exist");
+    }
+
+    const room = await Room.findOne(
+        {
+            team : teamId
+        }
+    );
+    if(!room){
+        throw new ApiError(500 , "Something went wrong while fetchinf room from the database");
+    }
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            room,
+            "Romm data fetched succesfully"
+        )
+    )
+})
+
 export {
     createTeam,
     findTeam,
     addMembers,
     removeMember,
-    addOneMember
+    addOneMember,
+    getRoomByTeamId
 }

@@ -22,6 +22,9 @@ const eventSchema = new Schema({
     type: Date,
     required: true,
   },
+  time:{
+    type:String
+  },
   location: {
     type: String,
     required: true,
@@ -41,9 +44,12 @@ const eventSchema = new Schema({
   category:{
     type:String,
     enum:category
+  },
+  phoneNo:{
+    type:String
   }
 });
 
-const Event = model('Event', eventSchema);
+export const Event = model('Event', eventSchema);
 
-export default Event;
+// export default Event;

@@ -8,10 +8,12 @@ import MapSection from "./MapSection";
 import { MdDashboard } from "react-icons/md";
 import { CiUser, CiSettings } from "react-icons/ci";
 import { FaMapMarkedAlt } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
     const [userData, setUserData] = useState(dummyUsers);
     const [backendLocation, setBackendLocation] = useState("New York");
+    const user = useSelector((state)=>state.auth.user);
 
 
     useEffect(() => {
