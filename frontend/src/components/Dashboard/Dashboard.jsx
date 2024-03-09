@@ -35,7 +35,7 @@ const Dashboard = () => {
                 <div className="h-10 p-3 pl-3 text-sm max-sm:hidden text-blue-500">
                     Account
                 </div>
-                <nav className="flex flex-col max-h-fit ">
+                <nav className="flex flex-col max-h-fit">
                     <div onClick={() => handlerNavTabs("home")}
                         className={`flex h-10 items-center my-3  gap-5 hover:text-blue-500 cursor-pointer ${activeNavTab === 'home' ? 'text-blue-500' : ''}`}>
                         <div className={`w-1 h-10 ${activeNavTab === 'home' ? 'bg-blue-500' : ''} max-sm:hidden`}></div>
@@ -94,8 +94,8 @@ const Dashboard = () => {
             </section>
 
 
-            <section className="min-w-[300px] justify-self-end mr-10 rounded-xl bg-slate-400 px-1 max-md:hidden">
-                <h2 className="m-3 px-2 py-3 my-5 text-center text-lg font-bold rounded-3xl bg-white"> Suggestions For You</h2>
+            <section className="min-w-[300px] shadow-md justify-self-end mr-10 rounded-xl px-1 max-md:hidden">
+                <h2 className="m-3 px-2 py-3 my-5 text-center text-lg font-bold rounded-3xl bg-white shadow-md"> Suggestions For You</h2>
                 <div className="flex flex-col p-3 gap-5 overflow-y-scroll max-h-[600px] w-full bg-white" style={{ scrollbarWidth: "none" }}>
                     <Followers />
                     <Followers />
