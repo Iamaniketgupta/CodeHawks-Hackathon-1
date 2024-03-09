@@ -56,9 +56,7 @@ const AutoSearchBox = () => {
                         id="region"
                         placeholder="Enter State or City"
                     />
-                    <button type="submit">
-                        <CiSearch size={20} className="text-xl" />
-                    </button>
+
                 </form>
                 {searchResults.length > 0 && (
                     <div className="bg-white p-2 flex flex-col overflow-y-scroll" style={{ scrollbarWidth: "none" }}>

@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import Buttons from './subcomponents/Buttons';
 import InputComp from './subcomponents/InputComp';
-import { FaCameraRetro } from "react-icons/fa6";
 import defaultavatar from "../assets/defaultavatar.png";
-import { request } from '../constants';
 import { signup } from '../utils/user.data.fetch';
-import { useNavigate} from 'react-router-dom'
-import { login, logout} from '../store/authSlice'
-import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { FaCameraRetro, FaLocationCrosshairs } from "react-icons/fa6";
+
+const AUTO_COMPLETE_PLACES_API_KEY = "8e3aea867emsh6783f2175546b2bp1a654fjsn2b41fa6818fa";
+
 const Signup = () => {
     const [data, setData] = useState({
         fullName: "",
@@ -15,57 +15,127 @@ const Signup = () => {
         password: "",
         phoneNo: "",
         gender: "",
+        location: "",
+        lat: "",
+        lon: ""
     });
-
-    const dispatch = useDispatch();
+    const [suggestions, setSuggestions] = useState([]);
     const navigate = useNavigate();
-
-    const signupHandler = async (e) => {
-        console.log(data)
-        e.preventDefault();
-
-        const response = await signup(data);
-        if(response){
-            const obj = {
-                user:response.data
-            }
-            dispatch(login(obj))
-            navigate('http://localhost:8000/api/dashboard')
-        }
-
-
-    }
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        // console.log(name , value)
         setData(prevData => ({
             ...prevData,
             [name]: value
         }));
-        console.log(data)
+
+        if (name === 'location') {
+            fetchSuggestions(value);
+        }
+    }
+
+    const fetchSuggestions = async (searchQuery) => {
+        const autoSuggestUrl = `https://map-places.p.rapidapi.com/autocomplete/json?input=${searchQuery}&radius=500000&location=india`;
+        const autoSuggestOptions = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': AUTO_COMPLETE_PLACES_API_KEY,
+                'X-RapidAPI-Host': 'map-places.p.rapidapi.com'
+            }
+        };
+
+        try {
+            const response = await fetch(autoSuggestUrl, autoSuggestOptions);
+            const result = await response.json();
+            if (result && result.predictions && result.predictions.length > 0) {
+                setSuggestions(result.predictions);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const handleSuggestionClick = (suggestion) => {
+        setData(prevData => ({
+            ...prevData,
+            location: suggestion.description,
+        }));
+        setSuggestions([]);
+    }
+
+    const signupHandler = async (e) => {
+        e.preventDefault();
+        const response = await signup(data);
+        if (response) {
+            // Handle successful signup
+            navigate('/api/dashboard');
+        }
+    }
+
+    const getLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    setData(prevData => ({
+                        ...prevData,
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude
+                    }));
+                },
+                (error) => {
+                    console.error(error.message);
+                }
+            );
+        } else {
+            console.error("Geolocation is not supported by this browser.");
+        }
     }
 
     return (
-        <div className="flex justify-center items-center h-screen overflow-hidden dark:text-inherit text-white">
-            <div className="dark:text-slate-800  flex flex-col text-xs justify-center w-[290px] max-h-[600px] h-fit py-8 px-5 dark:bg-white bg-slate-800 text-white rounded-2xl">
+        <div className="flex justify-center items-center h-[100vh] overflow-hidden dark:text-inherit text-white">
+            <div className="dark:text-slate-800  text-xs justify-center w-[290px] min-h-fit h-fit py-[5rem] px-5 dark:bg-white bg-slate-800 text-white rounded-2xl">
                 <h2 className="font-bold text-2xl text-center my-3 p-2">Sign Up</h2>
                 <div>
                     <div className='mx-auto w-full' >
-                    <p className="block pl-2 mb-1 font-semibold">Profile Image</p>
-                    <div className='relative bg-white overflow-hidden rounded-full w-[100px] h-[100px] mx-auto'>
-                        <img src={defaultavatar} alt="avatar" className='w-full h-full rounded-full' />
-                        <label className='absolute cursor-pointer' htmlFor='avatar'><FaCameraRetro size={20} className='inline-block text-slate-500 bottom-5 left-10 absolute'/></label>
-                    </div>
-                    <input type="file" id="avatar" className='mx-auto text-blue-700 w-full hidden' />
+                        <p className="block pl-2 mb-1 font-semibold">Profile Image</p>
+                        <div className='relative bg-white overflow-hidden rounded-full w-[100px] h-[100px] mx-auto'>
+                            <img src={defaultavatar} alt="avatar" className='w-full h-full rounded-full' />
+                            <label className='absolute cursor-pointer' htmlFor='avatar'><FaCameraRetro size={20} className='inline-block text-slate-500 bottom-5 left-10 absolute' /></label>
+                        </div>
+                        <input type="file" id="avatar" className='mx-auto text-blue-700 w-full hidden' />
                     </div>
                     <InputComp type="text" id="fullName" name="fullName" label={"Full Name"} placeholder="Enter Full Name" onChange={handleInputChange} />
                     <InputComp type="email" id="email" name="email" label={"Email"} placeholder="Enter Email" onChange={handleInputChange} />
                     <InputComp type="tel" id="phoneNo" name="phoneNo" label={"Phone"} placeholder="Enter Phone" onChange={handleInputChange} />
+
+                    <div className='flex gap-2 items-center'>
+                        <InputComp type="text" id="location" name="location" label={"Place"} placeholder="Enter Place" onChange={handleInputChange} value={data.location} />
+                        <FaLocationCrosshairs
+                            title={"Get Coordinates"}
+                            onClick={getLocation}
+                            className="m-4 w-fit inline-block text-blue-700 cursor-pointer"
+                            size={30}
+                        />
+                    </div>
+
+                    {suggestions.length > 0 && (
+                        <div className="bg-white dark:bg-[#181E29] rounded-lg shadow-md p-4 mt-4 w-[260px] max-h-28 overflow-y-auto absolute my-5 z-20" style={{ scrollbarWidth: "none" }}>
+                            <div>
+                                {suggestions.map((suggestion, index) => (
+                                    <p key={index} className="text-gray-700 dark:text-gray-200 cursor-pointer hover:text-blue-500 my-3 border-spacing-2 block" onClick={() => handleSuggestionClick(suggestion)}>{suggestion.description}</p>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    <div className='flex gap-2'>
+                        <InputComp type="number" id="lat" name="lat" label={"lat"} placeholder="Lat" onChange={handleInputChange} value={data.lat} />
+                        <InputComp type="number" id="lon" name="lon" label={"lon"} placeholder="lon" onChange={handleInputChange} value={data.lon} />
+                    </div>
+
                     <InputComp type="password" id="password" name="password" label={"Password"} placeholder="Enter Password" onChange={handleInputChange} />
                 </div>
                 <div onClick={signupHandler}><Buttons text="Sign Up" /></div>
-
                 <p className='text-center my-5 '>Already Signed Up? Login here </p>
             </div>
         </div>
