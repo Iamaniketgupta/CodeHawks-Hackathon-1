@@ -1,6 +1,7 @@
 import { FaRegHeart } from "react-icons/fa";
 
 const AllEvents = () => {
+    
     return (
         <div className='w-full text-gray-700 relative text-xs px-2 rounded-lg bg-slate-400'>
             <div className="h-fit py-2 pb-3 px-2 flex flex-col gap-1 max-h-[300px] ">

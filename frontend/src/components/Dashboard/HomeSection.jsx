@@ -7,10 +7,13 @@ import Followers from "./subSections/Followers";
 import NearByUsers from "./subSections/NearByUsers";
 import Following from "./subSections/Following";
 import CreateEventModal from "./subSections/CreateEventModal";
+import { useSelector } from "react-redux";
 
 const HomeSection = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currTab, setCurrTab] = useState("Events");
+    const {user} = useSelector((state)=>state.auth.user);
+    // console.log(user)
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -20,7 +23,7 @@ const HomeSection = () => {
         setIsModalOpen(false);
     };
 
-    const tabs = ["Events", "Near By Users", "Followers", "Following"];
+    const tabs = ["Events", "Near By Users", "Followers", "Following" , "Teams"];
 
     return (
         <div className="w-full h-[vh]">
@@ -33,7 +36,7 @@ const HomeSection = () => {
                 )}
                 {/* profile section */}
                 <div className="h-14 max-w-[600px] min-w-fit flex gap-3 items-center justify-end px-3 py-2 my-3">
-                    <div>Aniket Gupta</div>
+                    <div>{user ? user.fullName : "Aniket gupta"}</div>
                     <div>
                         <img src={defaultavatar} alt="profile" className="w-10 h-10 rounded-full" />
                     </div>
@@ -73,7 +76,7 @@ const HomeSection = () => {
             </div>
 
             <section>
-                <div className="flex items-center justify-start border-2 gap-2 h-14 rounded-3xl overflow-x-scroll flex-nowrap px-3" style={{ scrollbarWidth: "none" }}>
+                <div className="flex items-center  justify-between border-2 gap-2 h-14 rounded-3xl overflow-x-scroll flex-nowrap px-3" style={{ scrollbarWidth: "none" }}>
                     {tabs.map((item, index) => (
                         <div
                             key={index}

@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import Buttons from "../../subcomponents/Buttons";
 import defaultavatar from "../../../assets/defaultavatar.png"
 const Followers = ({ user }) => {

@@ -44,7 +44,6 @@ const addMembers = async (teamId , data)=>{
 }
 
 
-
 const removeMember = async (teamId , memberId)=>{
     try {
         const response = await axios.post(`${request}/teams/removeMember/${teamId}/${memberId}` , {
@@ -58,7 +57,6 @@ const removeMember = async (teamId , memberId)=>{
         console.error('Error fetching findTeam:', error);
     }
 }
-
 
 
 const addOneMember = async (teamId , memberId)=>{
