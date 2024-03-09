@@ -44,7 +44,7 @@ const exampleFunc = asyncHandler(async(req,res)=>{
 const signup = asyncHandler(async(req,res)=>{
     const {fullName , phoneNo , email ,  password , gender , age , sportsInterest , location , preferredSportActivities , skillLevels} = req.body;
 
-    if(!(fullName && phoneNo && email && password && gender && age && sportsInterest && location && preferredSportActivities && skillLevels)){
+    if(!(fullName && phoneNo && email && password  && age && sportsInterest && location && preferredSportActivities && skillLevels)){
         throw new ApiError(400 , "All fields are required");
     }
 
@@ -106,6 +106,8 @@ const signup = asyncHandler(async(req,res)=>{
 
 const login = asyncHandler(async(req,res)=>{
     const {email , phoneNo , password} = req.body;
+    console.log(req.body)
+    // console.log(phoneNo)
     if(!email && !phoneNo){
         throw new ApiError(400 , "email or phone no. is required");
     }
