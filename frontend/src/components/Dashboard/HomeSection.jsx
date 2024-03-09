@@ -22,7 +22,7 @@ const HomeSection = () => {
     return (
 
 
-        <div className="w-full">
+        <div className="w-full h-screen ">
 
             {/* profile section */}
             <div className="h-14 max-w-[600px] min-w-fit flex gap-3 items-center justify-end px-4 py-2 my-3 flex-wrap-reverse">
