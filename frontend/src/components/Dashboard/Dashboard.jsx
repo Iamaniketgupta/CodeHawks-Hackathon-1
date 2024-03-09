@@ -27,7 +27,6 @@ const Dashboard = () => {
         setActiveNavTab(val);
     };
 
-    console.log(userData)
 
     return (
         <div className="relative w-screen min-h-screen flex gap-10">
