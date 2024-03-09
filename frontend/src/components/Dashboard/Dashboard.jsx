@@ -109,7 +109,7 @@ const Dashboard = () => {
             </section>
 
             
-            <div className="h-14 fixed w-full bottom-0 z-50 dark:text-white bg-white md:hidden"> 
+            <div className="h-14 fixed w-[99.5%] bottom-0 z-40 dark:text-white dark:bg-[#181E29] bg-white md:hidden"> 
                 <nav className="flex gap-8 text-4xl h-full items-center justify-center">
                     <div onClick={() => handlerNavTabs("home")}
                         className={` my-3 hover:text-blue-500 cursor-pointer ${activeNavTab === 'home' ? 'text-blue-500' : ''}`}>

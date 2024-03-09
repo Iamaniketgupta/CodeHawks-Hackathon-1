@@ -67,16 +67,7 @@ const HomeSection = () => {
 
             {/* Tabs */}
             <section>
-                {/* tabs */}
-
-                {/* 
-  --dark-color: #0B101B;
-    --brand-primary-blue: #144EE3;
-    --brand-primary-pink: #EB568E;
-    --grey: #181E29;
-    --lite: #C9CED6;
-    
-    */}
+ 
                 <div className="flex items-center justify-start border-2 gap-2 h-14 rounded-3xl overflow-x-scroll flex-nowrap px-3" style={{ scrollbarWidth: "none" }}>
                     {
                         tabs.map((item, index) =>
@@ -100,10 +91,6 @@ const HomeSection = () => {
 
 
             </section>
-
-
-
-
 
         </div>
     );
