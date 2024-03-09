@@ -30,7 +30,7 @@ const Dashboard = () => {
 
     return (
         <div className="relative w-screen min-h-screen flex gap-10">
-            <section className="font-semibold max-md:hidden min-w-[230px] max-w-[230px] rounded-r-xl bg-gray-[#0e0001] dark:shadow-[#181E29] shadow-xl min-h-screen overflow-y-scroll overflow-x-hidden sticky top-0 left-0 z-30">
+            <section className="font-semibold max-md:hidden min-w-[230px] max-w-[230px] rounded-r-xl bg-gray-[#0e0001] dark:shadow-[#181E29] shadow-xl min-h-screen overflow-y-scroll overflow-x-hidden sticky top-0 left-0 z-30" style={{scrollbarWidth:'none'}}>
                 <div className="h-14 p-5 my-2 max-sm:hidden ">
                     <p>Code Hawks</p>
                 </div>

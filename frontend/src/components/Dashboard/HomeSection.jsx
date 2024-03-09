@@ -47,7 +47,7 @@ const HomeSection = () => {
                             Filter By Region
                         </label>
                         <input
-                            className="block px-3 py-2 min-w-[250px] outline-offset-2 outline-blue-700 bg-white border-2 rounded-xl text-sm"
+                            className="block px-3 py-2 min-w-[250px] outline-offset-2 outline-blue-00 bg-white border-2 rounded-xl text-sm"
                             type={"text"}
                             id={"region"}
                             placeholder={"Enter State or City"}
@@ -68,7 +68,7 @@ const HomeSection = () => {
             )}
 
             <div>
-                {currTab === "Events" && <button onClick={openModal} className="my-5 bg-blue-700">Create New Event</button>}
+                {currTab === "Events" && <button onClick={openModal} className="my-5 bg-blue-500 text-white">Create New Event</button>}
                 <CreateEventModal isOpen={isModalOpen} onClose={closeModal} />
             </div>
 
