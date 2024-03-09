@@ -23,16 +23,16 @@ const ProfileSection = () => {
                     <div className="p-3">
                         <img src={user.avatar} alt="Avatar" className="w-32 h-32 border-2 rounded-full" />
                     </div>
-                    <h2 className="my-4 px-3 text-xl">{user.fullName}</h2>
+                    <h2 className="my-4 px-3 text-xl font-bold">{user.fullName}</h2>
                     <div className="gap-5 p-4 px-2 ">
                         <p>Lives At: {user.location}</p>
                         <p>{user.gender ? `Gender: ${user.gender}` : ''}</p>
                         <p>{user.skillLevels ? `Skill Level: ${user.skillLevels}` : ''}</p>
                     </div>
                     <div className="flex h-20 flex-wrap gap-5 p-4 px-2 items-center select-none">
-                        <p className="text-blue-500">My Interests:</p>
+                        <p className="text-blue-500 font-semibold">My Interests:</p>
                         {user.sportsInterest.map((interest) => (
-                            <div key={interest} className="px-4 py-2 bg-[#181E29] rounded-3xl min-w-fit">
+                            <div key={interest} className="px-4 py-2 bg-[#181E29] text-white rounded-3xl min-w-fit">
                                 {interest}
                             </div>
                         ))}
