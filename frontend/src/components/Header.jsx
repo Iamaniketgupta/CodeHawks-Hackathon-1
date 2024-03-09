@@ -1,11 +1,24 @@
 import { MdDarkMode } from "react-icons/md";
 import { CiLight } from "react-icons/ci";
 import { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../utils/user.data.fetch";
+import { login , logout} from "../store/authSlice";
 
 const Header = ({ dark, setDark }) => {
-    const location = useLocation();
+  const user = useSelector((state) => state.auth.user);
+  const status = useSelector((state) => state.auth.status);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const logout1 = async()=>{
+    const logout2 = await logoutUser();
+    if(logout2){
+        dispatch(logout());
+        navigate('/api/login')
+    }
+  }
     useEffect(() => {
         localStorage.setItem('darkMode', JSON.stringify(dark));
         document.documentElement.classList.toggle('dark', dark);
@@ -26,7 +39,7 @@ const Header = ({ dark, setDark }) => {
                         <MdDarkMode size={25} className="cursor-pointer hover:text-blue-700 dark:text-white text-slate-800" onClick={() => setDark(true)} title="Dark Mode" />
                     )}
                 </div>
-                {location.pathname !== "/api/dashboard" ? (
+                {!status? (
                     <>
                         <Link to={"/api/login"} className='min-w-fit p-2 px-4 hover:text-blue-500 cursor-pointer font-semibold text-sm rounded-3xl'>Log in</Link>
                         <Link to={"/api/signup"} className='min-w-fit p-2 px-4 bg-blue-700 cursor-pointer hover:text-inherit text-white font-semibold text-sm rounded-3xl'>Sign up</Link>

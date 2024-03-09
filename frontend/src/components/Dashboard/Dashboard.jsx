@@ -27,11 +27,11 @@ const Dashboard = () => {
         <div className="relative w-screen min-h-[100vh] flex gap-10">
 
 
-            <section style={{ scrollbarWidth: "none" }} className="font-semibold max-md:hidden min-w-[230px] max-w-[230px] rounded-r-xl bg-gray-[#0e0001] shadow-blue-500 shadow-sm min-h-[100vh] overflow-y-scroll overflow-x-hidden sticky top-0 left-0 z-30">
-                <div className="h-20 p-5 my-2 max-sm:hidden">
-                    Code Hawks
+            <section style={{ scrollbarWidth: "none" }} className="font-semibold max-md:hidden min-w-[230px] max-w-[230px] rounded-r-xl bg-gray-[#0e0001]  dark:shadow-[#181E29] shadow-xl min-h-[100vh] overflow-y-scroll overflow-x-hidden sticky top-0 left-0 z-30">
+                <div className="h-14 p-5 my-2 max-sm:hidden ">
+                    <p>Code Hawks</p>
                 </div>
-                <div className="h-[1px] bg-white max-sm:hidden" ></div>
+                <div className="h-[2px] bg-[#181E29] max-sm:hidden" ></div>
                 <div className="h-10 p-3 pl-3 text-sm max-sm:hidden text-blue-500">
                     Account
                 </div>
