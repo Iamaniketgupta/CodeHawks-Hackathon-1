@@ -13,6 +13,7 @@ const Signup = () => {
     });
 
     const signupHandler = async () => {
+        
     }
 
     return (

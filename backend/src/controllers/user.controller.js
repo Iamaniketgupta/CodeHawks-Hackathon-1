@@ -182,7 +182,7 @@ const logoutUser = asyncHandler(async(req,res)=>{
 
 const recommendUsers = asyncHandler(async(req,res)=>{
 
-    const {userId} = req.params; 
+    const {userId} = req.user?._id; 
     const user = await User.findById(userId);
 
     if (!user) {
@@ -269,8 +269,15 @@ const toggleFollow = asyncHandler(async(req,res)=>{
         ...follower.following
     ];
 
+    let bool = false;
 
-    if(container.includes(user._id)){
+
+    container.forEach(element => {
+        if(element.equals(user._id)) bool = true;
+    });
+
+
+    if(bool){
         const index = follower.following.indexOf(user._id);
         follower.following.splice(index , 1);
 
@@ -280,7 +287,6 @@ const toggleFollow = asyncHandler(async(req,res)=>{
         await user.save();
 
     }else{
-        
         follower.following.push(user._id);
         user.followers.push(followerId);
         await follower.save();
