@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import Buttons from './subcomponents/Buttons';
-import InputComp from './subcomponents/InputComp';
+import InputComp from './subcomponents/InputComp'; //ye
 import defaultavatar from "../assets/defaultavatar.png";
 import { signup } from '../utils/user.data.fetch';
 import { useNavigate } from 'react-router-dom';
 import { FaCameraRetro, FaLocationCrosshairs } from "react-icons/fa6";
+import {login} from '../store/authSlice.js'
+import {useDispatch} from 'react-redux'
 
-const AUTO_COMPLETE_PLACES_API_KEY = "8e3aea867emsh6783f2175546b2bp1a654fjsn2b41fa6818fa";
+const AUTO_COMPLETE_PLACES_API_KEY = "8e3aea867emsh6783f2175546b2bp1a654fjsn2b41fa6818fa";//ye
 
 const Signup = () => {
     const [data, setData] = useState({
@@ -19,10 +21,11 @@ const Signup = () => {
         lat: "",
         lon: ""
     });
-    const [suggestions, setSuggestions] = useState([]);
+    const [suggestions, setSuggestions] = useState([]); // ye
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const handleInputChange = (e) => {
+    const handleInputChange = (e) => { 
         const { name, value } = e.target;
         setData(prevData => ({
             ...prevData,
@@ -34,7 +37,7 @@ const Signup = () => {
         }
     }
 
-    const fetchSuggestions = async (searchQuery) => {
+    const fetchSuggestions = async (searchQuery) => { //ye
         const autoSuggestUrl = `https://map-places.p.rapidapi.com/autocomplete/json?input=${searchQuery}&radius=500000&location=india`;
         const autoSuggestOptions = {
             method: 'GET',
@@ -55,7 +58,7 @@ const Signup = () => {
         }
     }
 
-    const handleSuggestionClick = (suggestion) => {
+    const handleSuggestionClick = (suggestion) => { //ye
         setData(prevData => ({
             ...prevData,
             location: suggestion.description,
@@ -65,14 +68,23 @@ const Signup = () => {
 
     const signupHandler = async (e) => {
         e.preventDefault();
+        data.coordinates = {
+            latitude:data.lat,
+            longitude:data.lon
+        }
         const response = await signup(data);
         if (response) {
             // Handle successful signup
+            console.log(response.data)
+            const obj = {
+                user:response.data
+            }
+            dispatch(login(obj))
             navigate('/api/dashboard');
         }
     }
 
-    const getLocation = () => {
+    const getLocation = () => { //ye
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
@@ -108,6 +120,8 @@ const Signup = () => {
                     <InputComp type="email" id="email" name="email" label={"Email"} placeholder="Enter Email" onChange={handleInputChange} />
                     <InputComp type="tel" id="phoneNo" name="phoneNo" label={"Phone"} placeholder="Enter Phone" onChange={handleInputChange} />
 
+
+                    {/* ye */}
                     <div className='flex gap-2 items-center'>
                         <InputComp type="text" id="location" name="location" label={"Place"} placeholder="Enter Place" onChange={handleInputChange} value={data.location} />
                         <FaLocationCrosshairs
@@ -118,6 +132,7 @@ const Signup = () => {
                         />
                     </div>
 
+                    {/* ye */}
                     {suggestions.length > 0 && (
                         <div className="bg-white dark:bg-[#181E29] rounded-lg shadow-md p-4 mt-4 w-[260px] max-h-28 overflow-y-auto absolute my-5 z-20" style={{ scrollbarWidth: "none" }}>
                             <div>
@@ -127,7 +142,8 @@ const Signup = () => {
                             </div>
                         </div>
                     )}
-
+                    
+                    {/* ye */}
                     <div className='flex gap-2'>
                         <InputComp type="number" id="lat" name="lat" label={"lat"} placeholder="Lat" onChange={handleInputChange} value={data.lat} />
                         <InputComp type="number" id="lon" name="lon" label={"lon"} placeholder="lon" onChange={handleInputChange} value={data.lon} />

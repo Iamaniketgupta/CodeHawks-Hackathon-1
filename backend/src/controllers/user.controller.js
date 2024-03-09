@@ -42,9 +42,9 @@ const exampleFunc = asyncHandler(async(req,res)=>{
 
 
 const signup = asyncHandler(async(req,res)=>{
-    const {fullName , phoneNo , email ,  password , gender , age , sportsInterest , location , preferredSportActivities , skillLevels} = req.body;
+    const {fullName , phoneNo , email ,  password , gender , age , sportsInterest , location  , skillLevels , coordinates} = req.body;
 
-    if(!(fullName && phoneNo && email && password && gender && age && sportsInterest && location && preferredSportActivities && skillLevels)){
+    if(!(fullName && phoneNo && email && password   && location  && coordinates)){
         throw new ApiError(400 , "All fields are required");
     }
 
@@ -76,12 +76,8 @@ const signup = asyncHandler(async(req,res)=>{
             phoneNo,
             email,
             password,
-            gender,
-            age,
-            sportsInterest,
-            preferredSportActivities,
             location,
-            skillLevels,
+            coordinates
             // avatar : avatar.url
         }
     );
@@ -220,17 +216,15 @@ const recommendUsers = asyncHandler(async(req,res)=>{
 const editProfile = asyncHandler(async(req,res)=>{
     const userId = req.user?.id;
     const user = await User.findById(userId);
-    const {fullName , phoneNo , email , age  , sportsInterest , location , preferredSportActivities , skillLevels} = req.body;
+    const {fullName  , age  , sportsInterest , location , preferredSportActivities , skillLevels } = req.body;
 
     const updatedUser = await User.findByIdAndUpdate(userId , {
         fullName : fullName || user.fullName,
-        phoneNo : phoneNo || user.phoneNo,
-        email : email || user.email,
         age : age || user.age,
         sportsInterest : sportsInterest || user.sportsInterest,
         location : location || user.location ,
         preferredSportActivities : preferredSportActivities || user.preferredSportActivities ,
-        skillLevels : skillLevels || user.skillLevels
+        skillLevels : skillLevels || user.skillLevels,
     },{
         new:true
     });
