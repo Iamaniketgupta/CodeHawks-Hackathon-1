@@ -30,27 +30,10 @@ const Signup = () => {
                 user:response.data
             }
             dispatch(login(obj))
-            navigate('/api/dashboard')
+            navigate('http://localhost:8000/api/dashboard')
         }
 
-        // try {
-        //     const response = await fetch(`${request}/users/signup`, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(data)
-        //     });
 
-        //     if (response.ok) {
-        //         const responseData = await response.json();
-        //         console.log('Signup successful:', responseData);
-        //     } else {
-        //         console.error('Signup failed:', response.statusText);
-        //     }
-        // } catch (error) {
-        //     console.error('Error:', error);
-        // }
     }
 
     const handleInputChange = (e) => {

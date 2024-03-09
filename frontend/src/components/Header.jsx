@@ -8,6 +8,7 @@ import { login , logout} from "../store/authSlice";
 
 const Header = ({ dark, setDark }) => {
   const user = useSelector((state) => state.auth.user);
+  
   const status = useSelector((state) => state.auth.status);
   const dispatch = useDispatch();
   const navigate = useNavigate();
