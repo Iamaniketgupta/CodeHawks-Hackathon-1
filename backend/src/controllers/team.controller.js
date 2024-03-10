@@ -274,58 +274,11 @@ const getRoomByTeamId = asyncHandler(async(req,res)=>{
     )
 })
 
-const getAllTeams  = asyncHandler(async(req,res)=>{
-    const allTeams = await Team.find({}).populate({
-        path: "createdBy",
-        select: "fullName email" // Add other fields you want to include, excluding the password
-    });
-    if(!allTeams){
-        throw new ApiError(500 , "Error while fetching all teams");
-    }
-
-    return res.status(200).json(
-        new ApiResponse(
-            200,
-            allTeams,
-            "All teams fetched successfully"
-        )
-    )
-})
-
-
-const getMyTeams = asyncHandler(async(req,res)=>{
-    const userId = req.user.id;
-    
-    const teams = await Team.find({
-        $or: [
-            { createdBy: userId },                       // User is the creator of the team
-            { members: { $in: [userId] } }               // User is a member of the team
-        ]
-    }).populate({
-        path: "createdBy",
-        select: "fullName email" // Add other fields you want to include, excluding the password
-    });
-
-    if(!teams){
-        throw new ApiError(500 , "Error while fetching teams");
-    }
-
-    return res.status(200).json(
-        new ApiResponse(
-            200,
-            teams,
-            "My teams fetched successfully"
-        )
-    )
-})
-
 export {
     createTeam,
     findTeam,
     addMembers,
     removeMember,
     addOneMember,
-    getRoomByTeamId,
-    getAllTeams,
-    getMyTeams
+    getRoomByTeamId
 }

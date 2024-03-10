@@ -4,8 +4,10 @@ import { request} from '../constants'
 const createTeam = async (formData)=>{
     try {
         const response = await axios.post(`${request}/teams/createTeam` , formData , {
-          withCredentials:true
-        });  
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });  
         console.log(response.data);
         return response.data;
       } catch (error) {
@@ -71,38 +73,11 @@ const addOneMember = async (teamId , memberId)=>{
     }
 }
 
-const getAllTeams = async()=>{
-  try {
-    const response = await axios.post(`${request}/teams/getAllTeams` , {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });  
-    console.log(response.data);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching all  teams:', error);
-}
-}
-
-const getMyTeams = async()=>{
-  try {
-    const response = await axios.post(`${request}/teams/getMyTeams` , {} , {
-      withCredentials:true
-    });  
-    console.log(response.data);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching all  teams:', error);
-}
-}
 
 export {
     createTeam,
     findTeam,
     addMembers,
     removeMember,
-    addOneMember,
-    getAllTeams,
-    getMyTeams
+    addOneMember
 }

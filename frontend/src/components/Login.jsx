@@ -29,7 +29,7 @@ const Login = () => {
         const response = await loginUser(data);
         if(response){
             const obj = {
-                user:response.data.user
+                user:response.data
             }
             dispatch(login(obj));
             console.log(user)
