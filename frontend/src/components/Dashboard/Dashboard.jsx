@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 
 const Dashboard = () => {
     // Dummy data try
-    const {user} = useSelector((state) => state.auth);
+    const user= useSelector((state) => state.auth);
     const [userData, setUserData] = useState(user); 
 
     const [backendLocation, setBackendLocation] = useState("New York"); 

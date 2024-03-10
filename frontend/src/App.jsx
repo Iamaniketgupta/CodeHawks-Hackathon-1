@@ -7,6 +7,7 @@ import Login from './components/Login'
 import { useEffect, useState } from 'react'
 import Header from './components/Header'
 import Dashboard from './components/Dashboard/Dashboard'
+import Footer from './components/Footer'
 
 function App() {
   const [dark, setDark] = useState(() => {
@@ -28,6 +29,8 @@ function App() {
         <Route path='/api/signup' element={<Signup />} />
         <Route path='/api/dashboard' element={<Dashboard />} />
       </Routes>
+
+      <Footer />
 
     </div>
   )
