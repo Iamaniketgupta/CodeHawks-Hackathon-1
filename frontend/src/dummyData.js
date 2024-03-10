@@ -10,7 +10,6 @@ export const dummyUsers = [
       age: 30,
       sportsInterest: ['Football', 'Basketball'],
       location: 'New York, India',
-      preferredSportActivities: ['Running', 'Swimming'],
       skillLevels: 'intermediate',
       coordinates: { lat: 30.7333, lng: 76.7794 } // Chandigarh coordinates
   },
@@ -25,7 +24,6 @@ export const dummyUsers = [
       age: 25,
       sportsInterest: ['Soccer', 'Golf'],
       location: 'Panchkula, India',
-      preferredSportActivities: ['Yoga', 'Cycling'],
       skillLevels: 'professional',
       coordinates: { lat: 30.6942, lng: 76.8606 } // Panchkula coordinates
   },

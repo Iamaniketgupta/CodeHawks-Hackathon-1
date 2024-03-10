@@ -11,9 +11,15 @@ import { FaMapMarkedAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
 const Dashboard = () => {
-    const [userData, setUserData] = useState(dummyUsers);
-    const [backendLocation, setBackendLocation] = useState("New York");
-    const user = useSelector((state)=>state.auth.user);
+    // Dummy data try
+    const [userData, setUserData] = useState(dummyUsers); //Dummy
+    const [backendLocation, setBackendLocation] = useState("New York"); //dummy place is supposed to come from user
+// ------------------------------------------------------------------------------------------------------------------
+
+    // const {user} = useSelector((state)=>state.auth.user); // pls use this as it is coming null
+
+    // console.log(user)  // null
+
 
 
     useEffect(() => {
