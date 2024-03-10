@@ -1,5 +1,5 @@
 
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import './App.css'
 import Home from './components/Home'
 import Signup from './components/Signup'
@@ -7,7 +7,14 @@ import Login from './components/Login'
 import { useEffect, useState } from 'react'
 import Header from './components/Header'
 import Dashboard from './components/Dashboard/Dashboard'
+
+import { getCurrentUser } from './utils/user.data.fetch'
+import { useDispatch, useSelector } from 'react-redux'
+import { login } from './store/authSlice'
+// import { navigate } from "gatsby";
+
 import Footer from './components/Footer'
+
 
 function App() {
   const [dark, setDark] = useState(() => {
@@ -15,9 +22,34 @@ function App() {
     return savedDarkMode ? JSON.parse(savedDarkMode) : true
   });
 
+  const dispatch = useDispatch();
+  const navigate =useNavigate()
+ 
+
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getCurrentUser();
+        if (data) {
+          const obj = {
+            user: data.data
+          };
+          dispatch(login(obj));
+          navigate('/api/dashboard');
+        }
+      } catch (error) {
+        // Handle error if getCurrentUser fails
+        console.error('Error fetching user data:', error);
+      }
+    };
+
     localStorage.setItem('darkMode', JSON.stringify(dark));
-  }, [dark]);
+    if (document.cookie.includes('accessToken')) {
+      fetchData();
+    }
+  }, [dark, dispatch, navigate]);
+
+
 
   return (
     <div className={`relative w-screen font-sans h-screen overflow-x-hidden`}>
