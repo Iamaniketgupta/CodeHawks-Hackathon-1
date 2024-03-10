@@ -108,14 +108,14 @@ const Signup = () => {
             <div className="dark:text-slate-800  text-xs max-sm:w-[300px] min-h-fit h-fit py-[1.5rem] px-5 mt-10 mb-10 dark:bg-white bg-slate-800 text-white rounded-2xl">
                 <h2 className="font-bold text-2xl text-center my-3 p-2">Sign Up</h2>
                 <div>
-                    <div className='mx-auto w-full' >
+                    {/* <div className='mx-auto w-full' >
                         <p className="block pl-2 mb-1 font-semibold">Profile Image</p>
                         <div className='relative bg-white overflow-hidden rounded-full w-[100px] h-[100px] mx-auto'>
                             <img src={defaultavatar} alt="avatar" className='w-full h-full rounded-full' />
                             <label className='absolute cursor-pointer' htmlFor='avatar'><FaCameraRetro size={20} className='inline-block text-slate-500 bottom-5 left-10 absolute' /></label>
                         </div>
                         <input type="file" id="avatar" className='mx-auto text-blue-700 w-full hidden' />
-                    </div>
+                    </div> */}
                     <InputComp type="text" id="fullName" name="fullName" label={"Full Name"} placeholder="Enter Full Name" onChange={handleInputChange} />
                     <InputComp type="email" id="email" name="email" label={"Email"} placeholder="Enter Email" onChange={handleInputChange} />
                     <InputComp type="tel" id="phoneNo" name="phoneNo" label={"Phone"} placeholder="Enter Phone" onChange={handleInputChange} />
