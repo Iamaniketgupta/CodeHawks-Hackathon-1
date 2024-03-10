@@ -12,7 +12,6 @@ const AllTeams = () => {
     setlist(data.data);
   }
 
-  console.log(user);
 
   useEffect(() => {
     getAllTeam();

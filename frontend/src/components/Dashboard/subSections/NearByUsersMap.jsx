@@ -6,56 +6,24 @@ import L from "leaflet";
 import icon from "../../../assets/mapdefaultIcon.png";
 
 const NearbyUsersMap = ({ usersData }) => {
-    const [userLocation, setUserLocation] = useState({ lat: null, lng: null });
+    const [userLocation, setUserLocation] = useState({ latitude: null, longitude: null });
     const [error, setError] = useState(null);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchUserLocation = () => {
-            if ("geolocation" in navigator) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        setUserLocation({
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude,
-                        });
-                        setLoading(false);
-                    },
-                    (error) => {
-                        setError("Ensure Your Internet Connection is on");
-                        setLoading(false);
-                    }
-                );
-            } else {
-                setError("Geolocation is not supported by this browser.");
-                setLoading(false);
-            }
-        };
-
-        fetchUserLocation();
-    }, []);
-
-    useEffect(() => {
-        setFilteredUsers(usersData);
-    }, [usersData]);
-
-    const handleFetchLocation = () => {
-        setLoading(true);
-        setUserLocation({ lat: null, lng: null });
-        setError(null);
-
+    // Define fetchUserLocation function
+    const fetchUserLocation = () => {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     setUserLocation({
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
                     });
                     setLoading(false);
                 },
                 (error) => {
-                    setError("Ensure Your Internet Connection is on");
+                    setError("Error fetching user location. Please ensure your internet connection is on.");
                     setLoading(false);
                 }
             );
@@ -65,6 +33,22 @@ const NearbyUsersMap = ({ usersData }) => {
         }
     };
 
+    useEffect(() => {
+        fetchUserLocation();
+    }, []);
+
+    useEffect(() => {
+        setFilteredUsers(usersData);
+    }, [usersData]);
+
+    const handleFetchLocation = () => {
+        setLoading(true);
+        setUserLocation({ latitude: null, longitude: null });
+        setError(null);
+
+        fetchUserLocation();
+    };
+
     const userIcon = L.icon({
         iconUrl: icon,
         iconSize: [40, 40],
@@ -72,17 +56,23 @@ const NearbyUsersMap = ({ usersData }) => {
     });
 
     const calculateDistance = (coord1, coord2) => {
-        const R = 6371; // Radius of the Earth in kilometers
-        const dLat = (coord2.lat - coord1.lat) * (Math.PI / 180);
-        const dLon = (coord2.lng - coord1.lng) * (Math.PI / 180);
+        const R = 6371; 
+        const lat1 = parseFloat(coord1.latitude);
+        const lon1 = parseFloat(coord1.longitude);
+        const lat2 = parseFloat(coord2.latitude);
+        const lon2 = parseFloat(coord2.longitude);
+    
+        const dLat = (lat2 - lat1) * (Math.PI / 180);
+        const dLon = (lon2 - lon1) * (Math.PI / 180);
         const a =
             Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(coord1.lat * (Math.PI / 180)) * Math.cos(coord2.lat * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         const distance = R * c;
-        return distance.toFixed(2); 
+        return distance.toFixed(2);
     };
-
+    
+console.log(filteredUsers)
     return (
         <div className="relative">
             {loading && <p>Loading...</p>}
@@ -96,26 +86,26 @@ const NearbyUsersMap = ({ usersData }) => {
                         size={25}
                     />
                     <MapContainer
-                        center={[userLocation.lat || 30.7333, userLocation.lng || 76.7794]}
-                        zoom={userLocation.lat && userLocation.lng ? 12 : 2}
+                        center={[userLocation.latitude || 30.7333, userLocation.longitude || 76.7794]}
+                        zoom={userLocation.latitude && userLocation.longitude ? 12 : 2}
                         style={{ height: "500px", width: "100%", margin: "auto auto" }}
                     >
                         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                        {userLocation.lat !== null && userLocation.lng !== null && (
-                            <Marker position={[userLocation.lat, userLocation.lng]} icon={userIcon}>
+                        {userLocation.latitude !== null && userLocation.longitude !== null && (
+                            <Marker position={[userLocation.latitude, userLocation.longitude]} icon={userIcon}>
                                 <Popup>
                                     <div>
                                         <h3>Your Location</h3>
-                                        <p>Latitude: {userLocation.lat}</p>
-                                        <p>Longitude: {userLocation.lng}</p>
+                                        <p>Latitude: {userLocation.latitude}</p>
+                                        <p>Longitude: {userLocation.longitude}</p>
                                     </div>
                                 </Popup>
                             </Marker>
                         )}
-                        {filteredUsers.map((user) => (
+                        {filteredUsers.map((user, index) => (
                             <Marker
-                                key={user.id}
-                                position={[user.coordinates.lat, user.coordinates.lng]}
+                                key={index}
+                                position={[parseFloat(user.coordinates.latitude), parseFloat(user.coordinates.longitude)]}
                             >
                                 <Popup>
                                     <div>
