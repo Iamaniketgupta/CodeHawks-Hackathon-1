@@ -4,8 +4,6 @@ import { useState } from "react";
 import { useNavigate} from 'react-router-dom'
 import { login, logout} from '../store/authSlice'
 import { useDispatch, useSelector } from 'react-redux';
-
-import {request} from '../constants.js'
 import {loginUser} from '../utils/user.data.fetch.js'
 const Login = () => {
     const [data, setData] = useState({
@@ -38,24 +36,7 @@ const Login = () => {
             navigate('/api/dashboard');
         }
     
-        // try {
-        //     const response = await fetch(`${request}/user/login`, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(data)
-        //     });
-    
-        //     if (response.ok) {
-        //         const responseData = await response.json();
-        //         console.log(responseData); 
-        //     } else {
-        //         console.error('Failed to log in:', response.statusText);
-        //     }
-        // } catch (error) {
-        //     console.error('Error:', error);
-        // }
+     
     }
     
 
