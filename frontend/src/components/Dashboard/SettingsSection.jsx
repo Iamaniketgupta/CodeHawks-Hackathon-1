@@ -9,10 +9,10 @@ const SettingsSection = () => {
   const user = useSelector((state) => state.auth.user);
 console.log(user)
   const [data, setData] = useState({
-    fullName: user?.user?.user?.fullName || "",
-    email:user?.user?.user?.email||"",
-    sportsInterest: user?.user?.user?.sportsInterest || [],
-    skillLevel:user?.user?.user?.skillLevel || "",
+    fullName: user?.user?.fullName || "",
+    email:user?.user?.email||"",
+    sportsInterest: user?.user?.sportsInterest || [],
+    skillLevel:user?.user?.skillLevel || "",
   });
 
   const sportsOptions = [
@@ -52,10 +52,10 @@ console.log(user)
     <div className="pb-[100px] dark:text-white">
       <h2 className="font-bold text-center text-3xl mt-4">Settings</h2>
       <div className="text-black">
-        <div className="max-w-md mx-auto mt-8 p-6 bg-transparent rounded-xl shadow-md">
-          <form onSubmit={handleSubmit}>
+        <div className="max-w-md mx-auto mt-8 p-6 rounded-xl bg-[#181a1d] text-white shadow-md ">
+          <form onSubmit={handleSubmit}  >
             <div className="mb-4">
-              <label htmlFor="fullName" className="block text-sm font-medium text-gray-600">
+              <label htmlFor="fullName" className="block text-sm font-medium text-white">
                 Full Name
               </label>
               <InputComp
@@ -64,13 +64,12 @@ console.log(user)
                 name="fullName"
                 value={data.fullName}
                 onChange={(e) => setData({ ...data, fullName: e.target.value })}
-                className="mt-1 p-2 w-full border rounded-md dark:text-white"
                 disabled
               />
             </div>
 
-            <div className="mb-4">
-              <label htmlFor="age" className="block text-sm font-medium text-gray-600">
+            <div className="mb-4 ">
+              <label htmlFor="age" className="block text-sm font-medium text-white">
                 Email
               </label>
               <InputComp
@@ -85,7 +84,7 @@ console.log(user)
             </div>
 
             <div className="mb-4">
-              <label htmlFor="sportsInterest" className="block text-sm font-medium text-gray-600">
+              <label htmlFor="sportsInterest" className="block text-sm font-medium text-white mb-2">
                 Sports Interest
               </label>
               <Select
@@ -99,7 +98,7 @@ console.log(user)
             </div>
 
             <div className="mb-4">
-              <label htmlFor="skillLevel" className="block text-sm font-medium text-gray-600">
+              <label htmlFor="skillLevel" className="block text-sm font-medium text-white">
                 Skill Level
               </label>
               <select
