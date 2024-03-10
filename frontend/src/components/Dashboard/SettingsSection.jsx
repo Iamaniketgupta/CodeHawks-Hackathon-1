@@ -103,16 +103,16 @@ console.log(user)
                 Skill Level
               </label>
               <select
-                id="skillLevel"
-                name="skillLevel"
+                id="skillLevels"
+                name="skillLevels"
                 value={data.skillLevel}
                 onChange={(e) => setData({ ...data, skillLevel: e.target.value })}
                 className="mt-1 p-2 w-full border rounded-md dark:text-slate-900 bg-white"
               >
                 <option value="">Select Skill Level</option>
-                <option value="beginner">Beginner</option>
-                <option value="intermediate">Intermediate</option>
-                <option value="professional">Professional</option>
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Professional">Professional</option>
               </select>
             </div>
 

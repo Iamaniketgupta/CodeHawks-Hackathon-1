@@ -57,7 +57,8 @@ const editProfile = async(data)=>{
 const toggleFollow = async(userId)=>{
     try {
         // console.log(formData)
-        const response = await axios.post(`${request}/users/toggleFollow/${userId}` ,{
+        console.log(userId)
+        const response = await axios.post(`${request}/users/toggleFollow/${userId}` , {} ,{
             withCredentials:true
         });  
         console.log(response.data);
@@ -70,7 +71,7 @@ const toggleFollow = async(userId)=>{
 const recommendUsers = async()=>{
     try {
         // console.log(formData)
-        const response = await axios.post(`${request}/users/recommendUsers` ,{
+        const response = await axios.post(`${request}/users/recommendUsers`,{} ,{
             withCredentials:true
         });  
         console.log(response.data);
@@ -80,7 +81,47 @@ const recommendUsers = async()=>{
     }
 }
 
+const findPeople = async(searchQuery)=>{
+  try {
+      // console.log(formData)
+      const response = await axios.post(`${request}/users/findPeople?searchQuery=${searchQuery}` ,{} ,{
+          withCredentials:true
+      });  
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching  find people:', error);
+  }
+}
 
+const getCurrentUser = async(searchQuery)=>{
+  try {
+      // console.log(formData)
+      console.log(document.cookie)
+      const response = await axios.post(`${request}/users/getCurrentUser` ,{},{
+          withCredentials:true
+      });  
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching  getting current usr:', error);
+  }
+}
+
+
+const getAllUsers = async()=>{
+  try {
+      // console.log(formData)
+      console.log(document.cookie)
+      const response = await axios.post(`${request}/users/getAllUsers` ,{},{
+          withCredentials:true
+      });  
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching  getting current usr:', error);
+  }
+}
 
 
 export {
@@ -89,5 +130,8 @@ export {
     logoutUser,
     editProfile,
     toggleFollow,
-    recommendUsers
+    recommendUsers,
+    findPeople,
+    getCurrentUser,
+    getAllUsers
 }

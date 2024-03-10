@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-const skillLevelsEnum = ['beginner', 'intermediate', 'professional'];
+const skillLevelsEnum = ['Beginner', 'Intermediate', 'Professional'];
 const sportsInterestEnum = [
   "Rugby" , "Football" , "Tennis" , "Badminton" ,"Running" , "Basketball" , "Golf" , "Gym Session" , "Squash" , "Social Event" , "Cricket" , "Cycling" , "Hockey" ,"Netball"
 ]// Add your specific sports interests

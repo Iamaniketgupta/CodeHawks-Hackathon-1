@@ -1,5 +1,5 @@
 import { CiSearch } from "react-icons/ci";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import defaultavatar from "../../assets/defaultavatar.png";
 import AllEvents from "./subSections/AllEvents";
 import InputComp from "../subcomponents/InputComp";
@@ -8,16 +8,16 @@ import NearByUsers from "./subSections/NearByUsers";
 import Following from "./subSections/Following";
 import CreateEventModal from "./subSections/CreateEventModal";
 import { useSelector } from "react-redux";
+import { findPeople } from "../../utils/user.data.fetch";
 
 const HomeSection = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currTab, setCurrTab] = useState("Events");
-
-
     const user = useSelector((state)=>state.auth.user);
-    // console.log(user) 
-
-
+    console.log(user)
+    const [searchUser, setsearchUser] = useState(null);
+    
+    // console.log(user)
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -27,20 +27,33 @@ const HomeSection = () => {
         setIsModalOpen(false);
     };
 
-    const tabs = ["Events", "Near By Users", "Followers", "Following" , "Teams"];
+    const tabs = ["Events", "Near By Users", "Followers", "Following"];
+
+    async function search(){
+        if(searchUser !== ''){
+            const searchData = await findPeople(searchUser);
+            console.log(searchData)
+        }
+    }
+
+    useEffect(() => {
+        search();
+        
+    }, [searchUser])
+    
 
     return (
         <div className="w-full h-[vh]">
             <div className="flex flex-wrap-reverse min-w-[300px] items-center">
                 {currTab !== "Events" && (
-                    <div className="searchUsers flex min-w-[300px] max-w-[600px] flex-1 items-center my-5">
+                    <div className="searchUsers text-black flex min-w-[300px] max-w-[600px] flex-1 items-center my-5">
                         <CiSearch size={30} />
-                        <InputComp type={"search"} id={"search"} placeholder={"Search Sports Persons"} />
+                        <InputComp type={"search"} id={"search"}   placeholder={"Search Sports Persons"} onChange={(e)=>setsearchUser(e.target.value)} />
                     </div>
                 )}
                 {/* profile section */}
                 <div className="h-14 max-w-[600px] min-w-fit flex gap-3 items-center justify-end px-3 py-2 my-3">
-                    <div>{user.user?.user?.fullName}</div>
+                    <div>{user ? user.user.fullName : "Aniket gupta"}</div>
                     <div>
                         <img src={defaultavatar} alt="profile" className="w-10 h-10 rounded-full" />
                     </div>
@@ -54,7 +67,7 @@ const HomeSection = () => {
                             Filter By Region
                         </label>
                         <input
-                            className="block px-3 py-2 min-w-[250px] outline-offset-2 outline-blue-00 bg-white border-2 rounded-xl text-sm"
+                            className="block px-3 py-2 min-w-[250px] outline-offset-2 outline-blue-700 bg-white border-2 rounded-xl text-sm"
                             type={"text"}
                             id={"region"}
                             placeholder={"Enter State or City"}
@@ -75,11 +88,11 @@ const HomeSection = () => {
             )}
 
             <div>
-                {currTab === "Events" && <button onClick={openModal} className="my-5 bg-blue-500 text-white">Create New Event</button>}
+                {currTab === "Events" && <button onClick={openModal} className="my-5 bg-blue-700">Create New Event</button>}
                 <CreateEventModal isOpen={isModalOpen} onClose={closeModal} />
             </div>
 
-            <section>
+            <section className="flex flex-col  sm:items-center">
                 <div className="flex items-center  justify-between border-2 gap-2 h-14 rounded-3xl overflow-x-scroll flex-nowrap px-3" style={{ scrollbarWidth: "none" }}>
                     {tabs.map((item, index) => (
                         <div
