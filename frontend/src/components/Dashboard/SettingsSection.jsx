@@ -1,7 +1,32 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { editProfile } from "../../utils/user.data.fetch";
 import Select from "react-select";
+import InputComp from "../subcomponents/InputComp"; //ye
+import { FaCameraRetro, FaLocationCrosshairs } from "react-icons/fa6";
+import { login } from "../../store/authSlice";
+
+const AUTO_COMPLETE_PLACES_API_KEY =
+  "8e3aea867emsh6783f2175546b2bp1a654fjsn2b41fa6818fa"; //ye
+
+const SettingsSection = () => {
+  const user = useSelector((state) => state.auth.user);
+  console.log(user)
+  const dispatch = useDispatch();
+  // console.log(user.user)
+  // const sportsInterestOptions = [
+  //     "Rugby", "Football", "Tennis", "Badminton", "Running", "Basketball", "Golf",
+  //     "Gym Session", "Squash", "Social Event", "Cricket", "Cycling", "Hockey", "Netball"
+  //   ];
+
+  const [data, setData] = useState({
+    fullName: "",
+    age: "",
+    location: "",
+    lat: "",
+    lon: "",
+    sportsInterest:[],
+    skillLevels:""
 import Buttons from "../subcomponents/Buttons";
 import InputComp from "../subcomponents/InputComp";
 
@@ -13,6 +38,7 @@ console.log(user)
     email:user?.user?.user?.email||"",
     sportsInterest: user?.user?.user?.sportsInterest || [],
     skillLevel:user?.user?.user?.skillLevel || "",
+
   });
 
   const sportsOptions = [
@@ -45,6 +71,11 @@ console.log(user)
     const userdata = await editProfile(data);
     if (userdata) {
         console.log(userdata)
+        const obj = {
+          user:userdata.data
+        }
+        dispatch(login(obj))
+        
     }
   };
 
@@ -119,8 +150,50 @@ console.log(user)
             <Buttons
               type="submit" text={"Save Details"}
             />
-            
+
+            <InputComp
+              type="number"
+              id="lon"
+              name="lon"
+              label={"lon"}
+              placeholder="lon"
+              onChange={handleInputChange}
+              value={data.lon}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="skillLevel"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Skill Level
+            </label>
+            <select
+              id="skillLevels"
+              name="skillLevels"
+              value={data.skillLevel}
+              onChange={handleInputChange}
+              className="mt-1 p-2 w-full border rounded-md"
+              required
+            >
+              <option value="">Select Skill Level</option>
+              <option value="Beginner">Beginner</option>
+              <option value="Intermediate">Intermediate</option>
+              <option value="Professional">Professional</option>
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+   
           </form>
+
         </div>
       </div>
     </div>

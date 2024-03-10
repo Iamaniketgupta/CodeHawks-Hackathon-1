@@ -80,7 +80,7 @@ const Signup = () => {
                 user:response.data
             }
             dispatch(login(obj))
-            navigate('/api/dashboard');
+            navigate('/api/login');
         }
     }
 

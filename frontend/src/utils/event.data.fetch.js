@@ -65,6 +65,19 @@ const getEventById = async (eventId)=>{
 }
 
 
+const getAllEvents = async ()=>{
+  try {
+      const response = await axios.post(`${request}/events/getAllEvents` , {} ,{
+        withCredentials:true
+      });  
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching createTeam:', error);
+  }
+}
+
+
 
 
 
@@ -73,5 +86,6 @@ export{
   deleteEvent,
   addParticipant,
   removeParticipant,
-  getEventById
+  getEventById,
+  getAllEvents
 }

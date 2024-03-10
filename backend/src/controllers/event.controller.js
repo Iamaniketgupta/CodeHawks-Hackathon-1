@@ -160,10 +160,26 @@ const getEventById = asyncHandler(async(req,res)=>{
     )
 })
 
+
+const getAllEvents = asyncHandler(async(req,res)=>{
+    const events = await Event.find({});
+    if(!events){
+        throw new ApiError(500 , "Error while fetching list of events from the backend")
+    }
+    return res.status(200).json(
+        new ApiResponse(
+            200 ,
+            events,
+            "ALl events fetched successfully"
+        )
+    )
+})
+
 export {
     createLocalEvent,
     deleteEvent,
     addParticipant,
     removeParticipant,
-    getEventById
+    getEventById,
+    getAllEvents
 }
