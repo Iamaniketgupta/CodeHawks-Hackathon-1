@@ -12,7 +12,7 @@ const AllTeams = () => {
         setlist(data.data)
     }
 
-    console.log(user)
+    // console.log(user)
     
 
     useEffect(() => {

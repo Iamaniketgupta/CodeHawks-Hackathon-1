@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import NearbyUsersMap from './subSections/NearByUsersMap';
-import { dummyUsers } from '../../dummyData';
 import InputComp from '../subcomponents/InputComp';
+import { getAllUsers } from "../../utils/user.data.fetch";
+import { useSelector } from 'react-redux';
 
 const sportsOptions = [
     { value: "Rugby", label: "Rugby" },
@@ -21,17 +22,36 @@ const sportsOptions = [
 ];
 
 const MapSection = () => {
-    const initialDistance = 50; 
+    const initialDistance = 50000;
+    const adminUser = useSelector((state) => state.auth.user);
+    const adminCoordinates = adminUser ? adminUser.user.coordinates : { latitude: 30.7333, longitude: 76.7794 };
+
+// console.log(adminUser.user.coordinates)
+// console.log(adminUser)
 
     const [distance, setDistance] = useState(initialDistance);
     const [selectedSports, setSelectedSports] = useState([]);
-    const [filteredUsers, setFilteredUsers] = useState([]);
-    const [allUsers, setAllUsers] = useState([]);
+    const [allUsers, setAllUsers] = useState([]); // Store all users' data
+    const [filteredUsers, setFilteredUsers] = useState([]); // Initialize filteredUsers state
 
     useEffect(() => {
-        setAllUsers(dummyUsers);
-        setFilteredUsers(dummyUsers);
+        fetchUserData();
     }, []);
+
+    const fetchUserData = async () => {
+        try {
+            const data = await getAllUsers();
+            if (data) {
+                // Update allUsers state
+                const allUsersData = data.data;
+                setAllUsers(allUsersData);
+                // Initially set filtered users to all users
+                setFilteredUsers(allUsersData);
+            }
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    };
 
     const handleDistanceChange = (event) => {
         const inputValue = event.target.value;
@@ -55,27 +75,30 @@ const MapSection = () => {
 
             return withinDistance && hasSelectedSports;
         });
-        setFilteredUsers(filtered);
-    }, [distance, selectedSports, allUsers]);
+
+        setFilteredUsers(filtered); 
+    }, [distance, selectedSports]);
 
     const resetFilters = () => {
         setDistance(initialDistance);
-        setSelectedSports([]);
+        setSelectedSports([]); 
         setFilteredUsers(allUsers);
     };
 
     const calculateDistance = (coordinates) => {
-        const userLocation = { lat: 30.7333, lng: 76.7794 };
+        if (!coordinates) return Infinity; 
         const R = 6371;
-        const dLat = (coordinates.lat - userLocation.lat) * (Math.PI / 180);
-        const dLon = (coordinates.lng - userLocation.lng) * (Math.PI / 180);
+        const dLat = (coordinates.latitude - adminCoordinates.latitude) * (Math.PI / 180);
+        const dLon = (coordinates.longitude - adminCoordinates.longitude) * (Math.PI / 180);
         const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(userLocation.lat * (Math.PI / 180)) * Math.cos(coordinates.lat * (Math.PI / 180)) *
+            Math.cos(adminCoordinates.latitude * (Math.PI / 180)) * Math.cos(coordinates.latitude * (Math.PI / 180)) *
             Math.sin(dLon / 2) * Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         const distance = R * c;
+
         return distance;
     };
+    
 
     return (
         <div className="container mx-auto p-2 ">
@@ -86,7 +109,7 @@ const MapSection = () => {
                 </div>
                 <div className="mb-4">
                     <label className="block">Select sports interests:</label>
-                    <div className='flex items-center gap-2 max-w-[260px] min-w-[260px]  max-h-[260px] overflow-auto' style={{scrollbarWidth:'none'}}>
+                    <div className='flex items-center gap-2 max-w-[260px] min-w-[260px]  max-h-[260px] overflow-auto' style={{ scrollbarWidth: 'none' }}>
                         {sportsOptions.map((sport, index) => (
                             <div key={index}>
                                 <input type="checkbox" id={sport.value} value={sport.value} onChange={handleSportsChange} className="mr-2" />

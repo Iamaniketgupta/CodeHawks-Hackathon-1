@@ -104,8 +104,8 @@ const Signup = () => {
     }
 
     return (
-        <div className="flex justify-center items-center h-[100vh]  dark:text-inherit text-white">
-            <div className="dark:text-slate-800  text-xs max-sm:w-[300px] min-h-fit h-fit py-[1.5rem] px-5 mt-48 mb-10 dark:bg-white bg-slate-800 text-white rounded-2xl">
+        <div className="flex justify-center items-center  dark:text-inherit text-white">
+            <div className="dark:text-slate-800  text-xs max-sm:w-[300px] min-h-fit h-fit py-[1.5rem] px-5 mt-10 mb-10 dark:bg-white bg-slate-800 text-white rounded-2xl">
                 <h2 className="font-bold text-2xl text-center my-3 p-2">Sign Up</h2>
                 <div>
                     <div className='mx-auto w-full' >

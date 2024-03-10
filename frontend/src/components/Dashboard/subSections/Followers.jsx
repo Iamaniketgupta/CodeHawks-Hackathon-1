@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import { getCurrentUser, toggleFollow } from "../../../utils/user.data.fetch";
 import { login } from "../../../store/authSlice";
 
-const Followers = ({ user }) => {
+const Followers = () => {
     const [followed, setfollowed] = useState(false);
     const userdata = useSelector((state)=>state.auth.user);
 
+    console.log(userdata)
     const follow = async()=>{
         console.log(user)
         const data = await toggleFollow(user._id);
