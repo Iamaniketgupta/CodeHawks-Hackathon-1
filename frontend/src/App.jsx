@@ -7,10 +7,14 @@ import Login from './components/Login'
 import { useEffect, useState } from 'react'
 import Header from './components/Header'
 import Dashboard from './components/Dashboard/Dashboard'
+
 import { getCurrentUser } from './utils/user.data.fetch'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from './store/authSlice'
 // import { navigate } from "gatsby";
+
+import Footer from './components/Footer'
+
 
 function App() {
   const [dark, setDark] = useState(() => {
@@ -57,6 +61,8 @@ function App() {
         <Route path='/api/signup' element={<Signup />} />
         <Route path='/api/dashboard' element={<Dashboard />} />
       </Routes>
+
+      <Footer />
 
     </div>
   )
