@@ -27,9 +27,19 @@ const SettingsSection = () => {
     lon: "",
     sportsInterest:[],
     skillLevels:""
-  });
+import Buttons from "../subcomponents/Buttons";
+import InputComp from "../subcomponents/InputComp";
 
-  const [suggestions, setSuggestions] = useState([]); // ye
+const SettingsSection = () => {
+  const user = useSelector((state) => state.auth.user);
+console.log(user)
+  const [data, setData] = useState({
+    fullName: user?.user?.user?.fullName || "",
+    email:user?.user?.user?.email||"",
+    sportsInterest: user?.user?.user?.sportsInterest || [],
+    skillLevel:user?.user?.user?.skillLevel || "",
+
+  });
 
   const sportsOptions = [
     { value: "Rugby", label: "Rugby" },
@@ -48,15 +58,6 @@ const SettingsSection = () => {
     { value: "Netball", label: "Netball" },
   ];
 
-  const [formData, setFormData] = useState({
-    fullName: user?.user?.fullName || "",
-    age: user?.user?.age || "",
-    sportsInterest: user?.user?.sportsInterest || [],
-    location: user?.user?.location || "",
-    preferredSportActivities: user?.user?.preferredSportActivities || [],
-    skillLevel: user?.user?.skillLevel || "",
-  });
-
   const handleSportsInterestChange = (selectedOptions) => {
     setData({
       ...data,
@@ -64,77 +65,9 @@ const SettingsSection = () => {
     });
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-
-    if (name === "location") {
-      fetchSuggestions(value);
-    }
-  };
-
-  const fetchSuggestions = async (searchQuery) => {
-    //ye
-    const autoSuggestUrl = `https://map-places.p.rapidapi.com/autocomplete/json?input=${searchQuery}&radius=500000&location=india`;
-    const autoSuggestOptions = {
-      method: "GET",
-      headers: {
-        "X-RapidAPI-Key": AUTO_COMPLETE_PLACES_API_KEY,
-        "X-RapidAPI-Host": "map-places.p.rapidapi.com",
-      },
-    };
-
-    try {
-      const response = await fetch(autoSuggestUrl, autoSuggestOptions);
-      const result = await response.json();
-      if (result && result.predictions && result.predictions.length > 0) {
-        setSuggestions(result.predictions);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleSuggestionClick = (suggestion) => {
-    //ye
-    setData((prevData) => ({
-      ...prevData,
-      location: suggestion.description,
-    }));
-    setSuggestions([]);
-  };
-
-  const getLocation = () => {
-    //ye
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setData((prevData) => ({
-            ...prevData,
-            lat: position.coords.latitude,
-            lon: position.coords.longitude,
-          }));
-        },
-        (error) => {
-          console.error(error.message);
-        }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your form submission logic here
     console.log("Form Submitted:", data);
-    data.coordinates = {
-        latitude:data.lat,
-        longitude:data.lon
-    }
     const userdata = await editProfile(data);
     if (userdata) {
         console.log(userdata)
@@ -147,117 +80,77 @@ const SettingsSection = () => {
   };
 
   return (
-    <div className="pb-[100px]">
-      <h1 className="font-semibold">Settings</h1>
+    <div className="pb-[100px] dark:text-white">
+      <h2 className="font-bold text-center text-3xl mt-4">Settings</h2>
       <div className="text-black">
-        <div className="text-3xl my-7 font-semibold text-white">Edit details </div>
         <div className="max-w-md mx-auto mt-8 p-6 bg-transparent rounded-xl shadow-md">
-          <h2 className="text-2xl font-semibold mb-6">User Information</h2>
-          {/* <form onSubmit={handleSubmit}> */}
-          <div className="mb-4">
-            <label
-              htmlFor="fullName"
-              className="block text-sm font-medium text-gray-600"
-            >
-              Full Name
-            </label>
-            <input
-              type="text"
-              id="fullName"
-              name="fullName"
-              value={data.fullName}
-              onChange={handleInputChange}
-              className="mt-1 p-2 w-full border rounded-md dark:text-white"
-              required
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="age"
-              className="block text-sm font-medium text-gray-600"
-            >
-              Age
-            </label>
-            <input
-              type="text"
-              id="age"
-              name="age"
-              value={data.age}
-              onChange={handleInputChange}
-              className="mt-1 p-2 w-full border rounded-md dark:text-white"
-              required
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="sportsInterest"
-              className="block text-sm font-medium text-gray-600"
-            >
-              Sports Interest
-            </label>
-            <Select
-              className="text-black bg-gray-600 "
-              isMulti
-              options={sportsOptions}
-              value={sportsOptions.filter((option) =>
-                data.sportsInterest.includes(option.value)
-              )}
-              onChange={handleSportsInterestChange}
-            />
-          </div>
-
-          {/* ye */}
-          <div className="flex gap-2 items-center">
-            <InputComp
-              type="text"
-              id="location"
-              name="location"
-              label={"Place"}
-              placeholder="Enter Place"
-              onChange={handleInputChange}
-              value={data.location}
-            />
-            <FaLocationCrosshairs
-              title={"Get Coordinates"}
-              onClick={getLocation}
-              className="m-4 w-fit inline-block text-blue-700 cursor-pointer"
-              size={30}
-            />
-          </div>
-
-          {/* ye */}
-          {suggestions.length > 0 && (
-            <div
-              className="bg-white dark:bg-[#181E29] rounded-lg shadow-md p-4 mt-4 w-[260px] max-h-28 overflow-y-auto absolute my-5 z-20"
-              style={{ scrollbarWidth: "none" }}
-            >
-              <div>
-                {suggestions.map((suggestion, index) => (
-                  <p
-                    key={index}
-                    className="text-gray-700 dark:text-gray-200 cursor-pointer hover:text-blue-500 my-3 border-spacing-2 block"
-                    onClick={() => handleSuggestionClick(suggestion)}
-                  >
-                    {suggestion.description}
-                  </p>
-                ))}
-              </div>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label htmlFor="fullName" className="block text-sm font-medium text-gray-600">
+                Full Name
+              </label>
+              <InputComp
+                type="text"
+                id="fullName"
+                name="fullName"
+                value={data.fullName}
+                onChange={(e) => setData({ ...data, fullName: e.target.value })}
+                className="mt-1 p-2 w-full border rounded-md dark:text-white"
+                disabled
+              />
             </div>
-          )}
 
-          {/* ye */}
-          <div className="flex gap-2">
-            <InputComp
-              type="number"
-              id="lat"
-              name="lat"
-              label={"lat"}
-              placeholder="Lat"
-              onChange={handleInputChange}
-              value={data.lat}
+            <div className="mb-4">
+              <label htmlFor="age" className="block text-sm font-medium text-gray-600">
+                Email
+              </label>
+              <InputComp
+                type="text"
+                id="email"
+                name="email"
+                value={data.email}
+                onChange={(e) => setData({ ...data, age: e.target.value })}
+                className="mt-1 p-2 w-full border rounded-md dark:text-white"
+                disabled
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="sportsInterest" className="block text-sm font-medium text-gray-600">
+                Sports Interest
+              </label>
+              <Select
+                isMulti
+                options={sportsOptions}
+                value={sportsOptions.filter((option) =>
+                  data.sportsInterest.includes(option.value)
+                )}
+                onChange={handleSportsInterestChange}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="skillLevel" className="block text-sm font-medium text-gray-600">
+                Skill Level
+              </label>
+              <select
+                id="skillLevel"
+                name="skillLevel"
+                value={data.skillLevel}
+                onChange={(e) => setData({ ...data, skillLevel: e.target.value })}
+                className="mt-1 p-2 w-full border rounded-md dark:text-slate-900 bg-white"
+              >
+                <option value="">Select Skill Level</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="professional">Professional</option>
+              </select>
+            </div>
+
+            <Buttons
+              type="submit" text={"Save Details"}
             />
+
             <InputComp
               type="number"
               id="lon"
@@ -298,7 +191,9 @@ const SettingsSection = () => {
           >
             Submit
           </button>
-          {/* </form> */}
+   
+          </form>
+
         </div>
       </div>
     </div>

@@ -71,7 +71,7 @@ const Login = () => {
         <div className="flex justify-center items-center h-screen overflow-hidden text-xs">
             <div className="flex flex-col justify-center w-[290px] h-fit py-8 px-5 text-white dark:text-slate-800 dark:bg-white bg-slate-800 text-inherit rounded-2xl">
                 <h2 className="font-bold text-2xl text-center my-3">Log In</h2>
-                <form onSubmit={loginHandler}>
+                <form onSubmit={loginHandler} >
                     {giveEmail ? (
                         <InputComp
                         value={data.email}
@@ -94,7 +94,7 @@ const Login = () => {
                         placeholder="Enter Phone"
                     />
                     )}
-                    <button onClick={changeParameter} className="dark:text-white">
+                    <button onClick={changeParameter} className="dark:text-white w-[80%] mx-auto bg-blue-500 my-3 block">
                         {giveEmail ? "Use Phone Number":"Use email"}
                     </button>
                     
@@ -108,9 +108,8 @@ const Login = () => {
                         required
                         placeholder="Enter Password"
                     />
-                    <Buttons text="Log In" />
+                    <Buttons text="Log In"/>
                 </form>
-                <p className="text-center mt-4">Forget Password? Click here</p>
             </div>
         </div>
     );

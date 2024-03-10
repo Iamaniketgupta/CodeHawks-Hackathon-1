@@ -3,7 +3,7 @@ import Buttons from './subcomponents/Buttons';
 import InputComp from './subcomponents/InputComp'; //ye
 import defaultavatar from "../assets/defaultavatar.png";
 import { signup } from '../utils/user.data.fetch';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaCameraRetro, FaLocationCrosshairs } from "react-icons/fa6";
 import {login} from '../store/authSlice.js'
 import {useDispatch} from 'react-redux'
@@ -152,7 +152,8 @@ const Signup = () => {
                     <InputComp type="password" id="password" name="password" label={"Password"} placeholder="Enter Password" onChange={handleInputChange} />
                 </div>
                 <div onClick={signupHandler}><Buttons text="Sign Up" /></div>
-                <p className='text-center my-5 '>Already Signed Up? Login here </p>
+                <p className='text-center my-5'>Already Signed Up? <Link to={"/api/login"}>
+                Login here </Link></p>
             </div>
         </div>
     );

@@ -14,12 +14,22 @@ import { RiTeamLine } from "react-icons/ri";
 import TeamSection from "./TeamSection";
 
 const Dashboard = () => {
+  
     const user = useSelector((state)=>state.auth.user);
     const [userData, setUserData] = useState([]);
     const [backendLocation, setBackendLocation] = useState(user?.location || "New york");
     
     const [backendSportsInterests, setbackendSportsInterests] = useState(user?.sportsInterest || ["cricket"]);
     // console.log(user)
+    // Dummy data try
+    const {user} = useSelector((state) => state.auth);
+    const [userData, setUserData] = useState(user); 
+
+    const [backendLocation, setBackendLocation] = useState("New York"); 
+
+
+    console.log(user)  // null
+
 
     console.log(userData)
 
@@ -60,7 +70,7 @@ const Dashboard = () => {
 
     return (
         <div className="relative w-screen min-h-screen flex gap-10">
-            <section className="font-semibold max-md:hidden min-w-[230px] max-w-[230px] rounded-r-xl bg-gray-[#0e0001] dark:shadow-[#181E29] shadow-xl min-h-screen overflow-y-scroll overflow-x-hidden sticky top-0 left-0 z-30">
+            <section className="font-semibold max-md:hidden min-w-[230px] max-w-[230px] rounded-r-xl bg-gray-[#0e0001] dark:shadow-[#181E29] shadow-xl min-h-screen overflow-y-scroll overflow-x-hidden sticky top-0 left-0 z-30" style={{scrollbarWidth:'none'}}>
                 <div className="h-14 p-5 my-2 max-sm:hidden ">
                     <p>Code Hawks</p>
                 </div>
@@ -92,12 +102,16 @@ const Dashboard = () => {
             <section className="min-w-[300px] justify-self-end mr-10 rounded-xl px-1 max-md:hidden dark:shadow-[#181E29] shadow-xl">
                 <h2 className="m-3 px-2 py-3 my-5 text-center text-lg font-bold rounded-3xl dark:bg-[#181E29] bg-white shadow-md"> Suggestions For You</h2>
                 <div className="flex flex-col p-3 gap-5 overflow-y-scroll max-h-[600px] w-full" style={{ scrollbarWidth: "none" }}>
+
                     {
                         console.log(userData)
                     }
                     {userData?.map(user => (
+
+                    {/* {userData?.map(user => (
+
                         <Followers key={user.id} user={user} />
-                    ))}
+                    ))} */}
                 </div>
             </section>
 
