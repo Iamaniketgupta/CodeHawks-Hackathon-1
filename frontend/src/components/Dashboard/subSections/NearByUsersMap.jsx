@@ -23,7 +23,7 @@ const NearbyUsersMap = ({ usersData }) => {
                         setLoading(false);
                     },
                     (error) => {
-                        setError(error.message);
+                        setError("Ensure Your Internet Connection is on");
                         setLoading(false);
                     }
                 );
@@ -55,7 +55,7 @@ const NearbyUsersMap = ({ usersData }) => {
                     setLoading(false);
                 },
                 (error) => {
-                    setError(error.message);
+                    setError("Ensure Your Internet Connection is on");
                     setLoading(false);
                 }
             );
@@ -80,7 +80,7 @@ const NearbyUsersMap = ({ usersData }) => {
             Math.cos(coord1.lat * (Math.PI / 180)) * Math.cos(coord2.lat * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         const distance = R * c;
-        return distance.toFixed(2); // Return distance rounded to 2 decimal places
+        return distance.toFixed(2); 
     };
 
     return (

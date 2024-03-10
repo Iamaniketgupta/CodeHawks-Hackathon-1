@@ -16,7 +16,7 @@ const Dashboard = () => {
     const [backendLocation, setBackendLocation] = useState("New York"); //dummy place is supposed to come from user
 // ------------------------------------------------------------------------------------------------------------------
 
-    // const {user} = useSelector((state)=>state.auth.user); // pls use this as it is coming null
+    const {user} = useSelector((state)=>state.auth.user); // pls use this as it is coming null
 
     // console.log(user)  // null
 

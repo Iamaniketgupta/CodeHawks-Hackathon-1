@@ -21,7 +21,7 @@ const sportsOptions = [
 ];
 
 const MapSection = () => {
-    const initialDistance = 50; // Initial distance range in kilometers
+    const initialDistance = 50; 
 
     const [distance, setDistance] = useState(initialDistance);
     const [selectedSports, setSelectedSports] = useState([]);
