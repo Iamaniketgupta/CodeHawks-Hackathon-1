@@ -22,17 +22,14 @@ const sportsOptions = [
 ];
 
 const MapSection = () => {
-    const initialDistance = 50000;
+    const initialDistance = 50; 
     const adminUser = useSelector((state) => state.auth.user);
     const adminCoordinates = adminUser ? adminUser.user.coordinates : { latitude: 30.7333, longitude: 76.7794 };
 
-// console.log(adminUser.user.coordinates)
-// console.log(adminUser)
-
     const [distance, setDistance] = useState(initialDistance);
     const [selectedSports, setSelectedSports] = useState([]);
-    const [allUsers, setAllUsers] = useState([]); // Store all users' data
-    const [filteredUsers, setFilteredUsers] = useState([]); // Initialize filteredUsers state
+    const [allUsers, setAllUsers] = useState([]);
+    const [filteredUsers, setFilteredUsers] = useState([]);
 
     useEffect(() => {
         fetchUserData();
@@ -42,10 +39,8 @@ const MapSection = () => {
         try {
             const data = await getAllUsers();
             if (data) {
-                // Update allUsers state
                 const allUsersData = data.data;
                 setAllUsers(allUsersData);
-                // Initially set filtered users to all users
                 setFilteredUsers(allUsersData);
             }
         } catch (error) {
@@ -70,42 +65,48 @@ const MapSection = () => {
 
     useEffect(() => {
         const filtered = allUsers.filter(user => {
-            const withinDistance = calculateDistance(user.coordinates) <= distance;
+            const userDistance = calculateDistance(user.coordinates);
+            const withinDistance = userDistance <= distance;
             const hasSelectedSports = selectedSports.length === 0 || selectedSports.some(sport => user.sportsInterest.includes(sport));
-
             return withinDistance && hasSelectedSports;
         });
-
-        setFilteredUsers(filtered); 
-    }, [distance, selectedSports]);
+        setFilteredUsers(filtered);
+    }, [distance, selectedSports, allUsers]);
 
     const resetFilters = () => {
         setDistance(initialDistance);
-        setSelectedSports([]); 
+        setSelectedSports([]);
         setFilteredUsers(allUsers);
     };
 
     const calculateDistance = (coordinates) => {
-        if (!coordinates) return Infinity; 
-        const R = 6371;
-        const dLat = (coordinates.latitude - adminCoordinates.latitude) * (Math.PI / 180);
-        const dLon = (coordinates.longitude - adminCoordinates.longitude) * (Math.PI / 180);
-        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(adminCoordinates.latitude * (Math.PI / 180)) * Math.cos(coordinates.latitude * (Math.PI / 180)) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        const distance = R * c;
+        if (!coordinates) return Infinity;
+        const R = 6371; 
+        const { latitude, longitude } = coordinates;
+        const lat1 = latitude;
+        const lon1 = longitude;
+        const lat2 = adminCoordinates.latitude;
+        const lon2 = adminCoordinates.longitude;
 
+        const dLat = (lat2 - lat1) * (Math.PI / 180);
+        const dLon = (lon2 - lon1) * (Math.PI / 180);
+
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        const distance = R * c; 
         return distance;
     };
-    
 
     return (
-        <div className="container mx-auto p-2 ">
+        <div className="container mx-auto p-2">
             <div className='flex gap-2 justify-center items-center flex-wrap'>
                 <div className="mb-4 min-w-[200px]">
                     <label htmlFor="distance" className="block">Distance (in kilometers): </label>
-                    <InputComp type="number" id="distance" value={distance === '' ? '' : distance.toString()} onChange={handleDistanceChange} className="border border-gray-400 rounded px-2 py-1 " />
+                    <InputComp type="number" id="distance" value={distance === '' ? '' : distance.toString()} onChange={handleDistanceChange} className="border border-gray-400 rounded px-2 py-1" />
                 </div>
                 <div className="mb-4">
                     <label className="block">Select sports interests:</label>

@@ -1,1 +1,1 @@
-export const request = "http://localhost:8000/api/v1";
+export const request = "https://codehawks-1.onrender.com/api/v1";

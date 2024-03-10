@@ -4,14 +4,17 @@ import "leaflet/dist/leaflet.css";
 import { FaLocationArrow } from "react-icons/fa";
 import L from "leaflet";
 import icon from "../../../assets/mapdefaultIcon.png";
+import { useSelector } from "react-redux";
 
 const NearbyUsersMap = ({ usersData }) => {
-    const [userLocation, setUserLocation] = useState({ latitude: null, longitude: null });
+    const adminUser = useSelector((state) => state.auth.user);
+    const adminCoordinates = adminUser ? adminUser.user.coordinates : { latitude: 30.7333, longitude: 76.7794 };
+
+    const [userLocation, setUserLocation] = useState(adminCoordinates);
     const [error, setError] = useState(null);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Define fetchUserLocation function
     const fetchUserLocation = () => {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
