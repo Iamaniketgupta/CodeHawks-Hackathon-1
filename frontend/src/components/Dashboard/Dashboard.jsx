@@ -98,6 +98,7 @@ const Dashboard = () => {
                             {tab === 'profile' && <CiUser />}
                             {tab === 'map' && <FaMapMarkedAlt />}
                             {tab === 'settings' && <CiSettings />}
+                            {tab === 'Teams' && <RiTeamLine />}
                         </div>
                     ))}
                 </nav>
