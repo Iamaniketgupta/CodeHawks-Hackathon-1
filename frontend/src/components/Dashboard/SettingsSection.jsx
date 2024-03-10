@@ -1,15 +1,18 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { editProfile } from "../../utils/user.data.fetch";
 import Select from "react-select";
 import InputComp from "../subcomponents/InputComp"; //ye
 import { FaCameraRetro, FaLocationCrosshairs } from "react-icons/fa6";
+import { login } from "../../store/authSlice";
 
 const AUTO_COMPLETE_PLACES_API_KEY =
   "8e3aea867emsh6783f2175546b2bp1a654fjsn2b41fa6818fa"; //ye
 
 const SettingsSection = () => {
   const user = useSelector((state) => state.auth.user);
+  console.log(user)
+  const dispatch = useDispatch();
   // console.log(user.user)
   // const sportsInterestOptions = [
   //     "Rugby", "Football", "Tennis", "Badminton", "Running", "Basketball", "Golf",
@@ -23,7 +26,7 @@ const SettingsSection = () => {
     lat: "",
     lon: "",
     sportsInterest:[],
-    skillLevel:""
+    skillLevels:""
   });
 
   const [suggestions, setSuggestions] = useState([]); // ye
@@ -135,6 +138,11 @@ const SettingsSection = () => {
     const userdata = await editProfile(data);
     if (userdata) {
         console.log(userdata)
+        const obj = {
+          user:userdata.data
+        }
+        dispatch(login(obj))
+        
     }
   };
 
@@ -269,17 +277,17 @@ const SettingsSection = () => {
               Skill Level
             </label>
             <select
-              id="skillLevel"
-              name="skillLevel"
+              id="skillLevels"
+              name="skillLevels"
               value={data.skillLevel}
               onChange={handleInputChange}
               className="mt-1 p-2 w-full border rounded-md"
               required
             >
               <option value="">Select Skill Level</option>
-              <option value="beginner">Beginner</option>
-              <option value="intermediate">Intermediate</option>
-              <option value="professional">Professional</option>
+              <option value="Beginner">Beginner</option>
+              <option value="Intermediate">Intermediate</option>
+              <option value="Professional">Professional</option>
             </select>
           </div>
 

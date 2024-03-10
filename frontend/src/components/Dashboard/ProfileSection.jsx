@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const ProfileSection = () => {
     const [userData, setUserData] = useState([{
@@ -16,14 +17,27 @@ const ProfileSection = () => {
       skillLevels: 'intermediate',
     }]);
 
+    const user = useSelector((state)=>state.auth.user);
+
+
+    const data = ()=>{
+        console.log(user.user)
+        setUserData([user.user])
+        }
+
+    useEffect(() => {
+        data()
+    }, [])
+    // 
+
     return (
         <div className="w-full">
             {userData.map((user) => (
-                <div key={user.id} className="flex-1 min-w-[280px] mx-auto my-5 p-2 shadow-sm shadow-[#181E29] rounded-md">
+                <div key={user._id} className="flex-1 min-w-[280px] mx-auto my-5 p-2 shadow-sm shadow-[#181E29] rounded-md">
                     <div className="p-3">
-                        <img src={user.avatar} alt="Avatar" className="w-32 h-32 border-2 rounded-full" />
+                        <img src={user.avatar || "dp.webp"} alt="Avatar" className="w-32 h-32 border-2 rounded-full" />
                     </div>
-                    <h2 className="my-4 px-3 text-xl">{user.fullName}</h2>
+                    <h2 className="my-4 px-3 text-xl font-bold">{user.fullName}</h2>
                     <div className="gap-5 p-4 px-2 ">
                         <p>Lives At: {user.location}</p>
                         <p>{user.gender ? `Gender: ${user.gender}` : ''}</p>
