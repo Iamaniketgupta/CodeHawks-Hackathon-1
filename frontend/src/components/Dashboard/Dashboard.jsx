@@ -9,18 +9,8 @@ import { MdDashboard } from "react-icons/md";
 import { CiUser, CiSettings } from "react-icons/ci";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { getAllUsers, recommendUsers } from "../../utils/user.data.fetch";
-import { RiTeamLine } from "react-icons/ri";
-import TeamSection from "./TeamSection";
 
 const Dashboard = () => {
-  
-    const user = useSelector((state)=>state.auth.user);
-    const [userData, setUserData] = useState([]);
-    const [backendLocation, setBackendLocation] = useState(user?.location || "New york");
-    
-    const [backendSportsInterests, setbackendSportsInterests] = useState(user?.sportsInterest || ["cricket"]);
-    // console.log(user)
     // Dummy data try
     const {user} = useSelector((state) => state.auth);
     const [userData, setUserData] = useState(user); 
@@ -31,36 +21,14 @@ const Dashboard = () => {
     console.log(user)  // null
 
 
-    console.log(userData)
 
-    async function allusers(){
-        const data = await getAllUsers();
-        if(data){
-            console.log(data)
-            setUserData(data.data)
-            console.log(userData)
-            filterFunc();
-        }
-    }
-    function filterFunc() {
-        const filteredData = userData.filter(user => {
-            const locationMatch = user.location.toLowerCase().includes(backendLocation.toLowerCase());
-            const sportsInterestMatch = user.sportsInterest.some(sport => backendSportsInterests.includes(sport.toLowerCase()));
-    
-            console.log(`User: ${user.fullName}, Location Match: ${locationMatch}, Sports Interest Match: ${sportsInterestMatch}`);
-    
-            return locationMatch || sportsInterestMatch;
-        });
-    
-        setUserData(filteredData);
-    }
-    
     useEffect(() => {
-        allusers()
+        const filteredData = dummyUsers.filter(user => user.location.toLowerCase().includes(backendLocation.toLowerCase()) );
+        setUserData(filteredData);
     }, [backendLocation]);
     
 
-    const navTabs = ["home", "profile", "map", "settings" , "Teams"];
+    const navTabs = ["home", "profile", "map", "settings"];
     const [activeNavTab, setActiveNavTab] = useState(navTabs[0]);
 
     const handlerNavTabs = (val) => {
@@ -84,7 +52,6 @@ const Dashboard = () => {
                             {tab === 'profile' && <CiUser />}
                             {tab === 'map' && <FaMapMarkedAlt />}
                             {tab === 'settings' && <CiSettings />}
-                            {tab === 'Teams' && <RiTeamLine />}
                             <p className="max-sm:hidden">{tab.charAt(0).toUpperCase() + tab.slice(1)}</p>
                         </div>
                     ))}
@@ -95,21 +62,13 @@ const Dashboard = () => {
                 {activeNavTab === "profile" && <ProfileSection />}
                 {activeNavTab === "settings" && <SettingsSection />}
                 {activeNavTab === "map" && <MapSection />}
-                {activeNavTab === "Teams" && <TeamSection />}
             </section>
             
             
             <section className="min-w-[300px] justify-self-end mr-10 rounded-xl px-1 max-md:hidden dark:shadow-[#181E29] shadow-xl">
                 <h2 className="m-3 px-2 py-3 my-5 text-center text-lg font-bold rounded-3xl dark:bg-[#181E29] bg-white shadow-md"> Suggestions For You</h2>
                 <div className="flex flex-col p-3 gap-5 overflow-y-scroll max-h-[600px] w-full" style={{ scrollbarWidth: "none" }}>
-
-                    {
-                        console.log(userData)
-                    }
-                    {userData?.map(user => (
-
                     {/* {userData?.map(user => (
-
                         <Followers key={user.id} user={user} />
                     ))} */}
                 </div>

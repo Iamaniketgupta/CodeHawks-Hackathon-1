@@ -94,25 +94,8 @@ const signup = asyncHandler(async(req,res)=>{
         throw new ApiError(500 , "something went wrong while registering");
     }
 
-    
-    const {accessToken , refreshToken} = await generateAccessAndRefreshToken(createdUser._id);
-    // console.log({accessToken , refreshToken});
-
-
-    return res
-    .status(200)
-    .cookie("accessToken",accessToken )
-    .cookie("refreshToken" , refreshToken )
-    .json(
-        new ApiResponse(
-            200 ,
-            {
-                user:createdUser,
-                accessToken,
-                refreshToken
-            },
-            "user registered in successfully"
-        )
+    return res.status(201).json(
+        new ApiResponse(200 , createdUser,"User registered successfully")
     )
 })
 
@@ -195,7 +178,7 @@ const logoutUser = asyncHandler(async(req,res)=>{
 
 const recommendUsers = asyncHandler(async(req,res)=>{
 
-    const userId= req.user?.id; 
+    const {userId} = req.user?._id; 
     const user = await User.findById(userId);
 
     if (!user) {
@@ -211,7 +194,7 @@ const recommendUsers = asyncHandler(async(req,res)=>{
       _id: { $ne: userId }, // Exclude the current user
       sportsInterest: {
         $ne: null, // Exclude users with null interests
-        $regex: new RegExp(`\\b(?:${userSportsInterest})\\b`, 'i'),
+        $regex: new RegExp(`\\b(?:${userSportsInterest.split(' ').join('|')})\\b`, 'i'),
       },
     });
 
@@ -261,9 +244,7 @@ const editProfile = asyncHandler(async(req,res)=>{
 
 const toggleFollow = asyncHandler(async(req,res)=>{
     const {userId} = req.params;
-    const followerId = req.user?._id;
-
-    console.log(userId , followerId)
+    const followerId = req.user?.id;
     if(!userId){
         throw new ApiError(400 , "UserId is requried");
     }
@@ -316,60 +297,6 @@ const toggleFollow = asyncHandler(async(req,res)=>{
     
 })
 
-const findPeople = asyncHandler(async(req,res)=>{
-    const {searchQuery} = req.query;
-    if(!searchQuery){
-        throw new ApiError("search query is required");
-    }
-
-    
-    const regexPattern = new RegExp(`.*${searchQuery}.*`, 'i');
-
-    const userList = await User.find(
-        {
-            fullName:regexPattern
-        }
-    );
-
-    if(!userList){
-        throw new ApiError(500 ,"Error while fetching userlist from the db");
-    }
-
-    return res.status(200).json(
-        new ApiResponse(
-            200,
-            userList,
-            "User list fetched successfully"
-        )
-    )
-
-})
-
-const getCurrentUser = asyncHandler(async(req,res)=>{
-    return res.status(200).json(
-        new ApiResponse(
-            200,
-            req.user,
-            "Fetched current user successfully"
-        )
-    )
-})
-
-
-const getAllUsers = asyncHandler(async(req,res)=>{
-    const allUsers = await User.find({});
-    if(!allUsers){
-        throw new ApiError(500 , "Error while fetching all users");
-    }
-
-    return res.status(200).json(
-        new ApiResponse(
-            200,
-            allUsers,
-            "All users fetched successfully"
-        )
-    )
-})
 
 
 export {
@@ -379,8 +306,5 @@ export {
     logoutUser,
     recommendUsers,
     editProfile,
-    toggleFollow,
-    findPeople,
-    getCurrentUser,
-    getAllUsers
+    toggleFollow
 }
