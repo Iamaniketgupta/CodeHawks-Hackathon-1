@@ -24,7 +24,7 @@ const TeamSection = () => {
       <div>
         
           <button onClick={openModal} className="my-5 bg-blue-700">
-            Create New Event
+            Create New Team
           </button>
         
         <CreateTeamModal isOpen={isModalOpen} onClose={closeModal} />

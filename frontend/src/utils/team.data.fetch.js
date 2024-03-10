@@ -45,10 +45,8 @@ const addMembers = async (teamId , data)=>{
 const removeMember = async (teamId , memberId)=>{
     try {
         const response = await axios.post(`${request}/teams/removeMember/${teamId}/${memberId}` , {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          });  
+            
+          } , {withCredentials:true});  
         console.log(response.data);
         return response.data;
       } catch (error) {
@@ -59,11 +57,9 @@ const removeMember = async (teamId , memberId)=>{
 
 const addOneMember = async (teamId , memberId)=>{
     try {
-        const response = await axios.post(`${request}/teams/addOneMember/${teamId}/${memberId}` , {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          });  
+        const response = await axios.post(`${request}/teams/addOneMember/${teamId}/${memberId}` , {} , {
+          withCredentials:true
+        });  
         console.log(response.data);
         return response.data;
       } catch (error) {
@@ -97,6 +93,44 @@ const getMyTeams = async()=>{
 }
 }
 
+
+const getRoomByTeamId = async(teamId)=>{
+  try {
+    const response = await axios.post(`${request}/teams/getRoomByTeamId/${teamId}` , {} , {
+      withCredentials:true
+    });  
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching all  teams:', error);
+}
+}
+
+const addMessageByRoomId = async(roomId)=>{
+  try {
+    const response = await axios.post(`${request}/teams/getRoomByTeamId/${roomId}` , data , {
+      withCredentials:true
+    });  
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching all  teams:', error);
+}
+}
+
+const getTextByRoomId = async(roomId)=>{
+  try {
+    const response = await axios.post(`${request}/teams/getRoomByTeamId/${roomId}` , {} , {
+      withCredentials:true
+    });  
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching all  teams:', error);
+}
+}
+
+
 export {
     createTeam,
     findTeam,
@@ -104,5 +138,8 @@ export {
     removeMember,
     addOneMember,
     getAllTeams,
-    getMyTeams
+    getMyTeams,
+    getRoomByTeamId,
+    addMessageByRoomId,
+    getTextByRoomId
 }

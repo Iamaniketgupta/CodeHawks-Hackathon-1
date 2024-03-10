@@ -15,6 +15,7 @@ const createLocalEvent = asyncHandler(async(req,res)=>{
     if(!user){
         throw new ApiError(400 , "User dont exist");
     }
+    console.log(req.body)
 
     const {title , description , date , location , category ,phoneNo , time} = req.body;
     console.log(req.body)
