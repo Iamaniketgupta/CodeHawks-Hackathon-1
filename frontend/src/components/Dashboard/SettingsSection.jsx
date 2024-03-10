@@ -6,14 +6,13 @@ import Buttons from "../subcomponents/Buttons";
 import InputComp from "../subcomponents/InputComp";
 
 const SettingsSection = () => {
-  const {user} = useSelector((state) => state.auth.user);
-
+  const user = useSelector((state) => state.auth.user);
+console.log(user)
   const [data, setData] = useState({
-    fullName: user?.user?.fullName || "",
-    email:user?.user?.email||"",
-    age: user?.user?.age || "",
-    sportsInterest: user?.user?.sportsInterest || [],
-    skillLevel:user?.user?.skillLevel || "",
+    fullName: user?.user?.user?.fullName || "",
+    email:user?.user?.user?.email||"",
+    sportsInterest: user?.user?.user?.sportsInterest || [],
+    skillLevel:user?.user?.user?.skillLevel || "",
   });
 
   const sportsOptions = [
@@ -43,7 +42,6 @@ const SettingsSection = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form Submitted:", data);
-    // Add logic for form submission
     const userdata = await editProfile(data);
     if (userdata) {
         console.log(userdata)

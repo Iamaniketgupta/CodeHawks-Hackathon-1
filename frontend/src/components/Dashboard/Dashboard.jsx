@@ -12,13 +12,13 @@ import { useSelector } from "react-redux";
 
 const Dashboard = () => {
     // Dummy data try
-    const [userData, setUserData] = useState(dummyUsers); //Dummy
-    const [backendLocation, setBackendLocation] = useState("New York"); //dummy place is supposed to come from user
-// ------------------------------------------------------------------------------------------------------------------
+    const {user} = useSelector((state) => state.auth);
+    const [userData, setUserData] = useState(user); 
 
-    const {user} = useSelector((state)=>state.auth.user); // pls use this as it is coming null
+    const [backendLocation, setBackendLocation] = useState("New York"); 
 
-    // console.log(user)  // null
+
+    console.log(user)  // null
 
 
 
@@ -68,9 +68,9 @@ const Dashboard = () => {
             <section className="min-w-[300px] justify-self-end mr-10 rounded-xl px-1 max-md:hidden dark:shadow-[#181E29] shadow-xl">
                 <h2 className="m-3 px-2 py-3 my-5 text-center text-lg font-bold rounded-3xl dark:bg-[#181E29] bg-white shadow-md"> Suggestions For You</h2>
                 <div className="flex flex-col p-3 gap-5 overflow-y-scroll max-h-[600px] w-full" style={{ scrollbarWidth: "none" }}>
-                    {userData?.map(user => (
+                    {/* {userData?.map(user => (
                         <Followers key={user.id} user={user} />
-                    ))}
+                    ))} */}
                 </div>
             </section>
 

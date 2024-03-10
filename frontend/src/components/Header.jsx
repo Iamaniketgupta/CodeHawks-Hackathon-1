@@ -46,7 +46,7 @@ const Header = ({ dark, setDark }) => {
                         <Link to={"/api/signup"} className='min-w-fit p-2 px-4 bg-blue-700 cursor-pointer hover:text-inherit text-white font-semibold text-sm rounded-3xl'>Sign up</Link>
                     </>
                 ) : (
-                    <div onClick={logout1} className='min-w-fit p-2 px-4 hover:text-blue-500 cursor-pointer font-semibold text-sm rounded-3xl'>Log Out</div>
+                    <div onClick={logout1} className='min-w-fit p-2 px-4 bg-blue-500 text-white hover:bg-blue-700 cursor-pointer font-semibold text-sm rounded-3xl'>Log Out</div>
                 )}
             </nav>
         </div>

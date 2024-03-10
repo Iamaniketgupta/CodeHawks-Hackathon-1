@@ -14,8 +14,8 @@ const HomeSection = () => {
     const [currTab, setCurrTab] = useState("Events");
 
 
-    const {user} = useSelector((state)=>state.auth.user);
-    console.log(user) 
+    const user = useSelector((state)=>state.auth.user);
+    // console.log(user) 
 
 
 
@@ -40,7 +40,7 @@ const HomeSection = () => {
                 )}
                 {/* profile section */}
                 <div className="h-14 max-w-[600px] min-w-fit flex gap-3 items-center justify-end px-3 py-2 my-3">
-                    <div>{user ? user.fullName : "Aniket gupta"}</div>
+                    <div>{user.user?.user?.fullName}</div>
                     <div>
                         <img src={defaultavatar} alt="profile" className="w-10 h-10 rounded-full" />
                     </div>
